@@ -14,7 +14,7 @@ class MultiAgentEnv(gym.Env):
 
     def __init__(self, world, reset_callback=None, reward_callback=None,
                  observation_callback=None, info_callback=None,
-                 done_callback=None, shared_viewer=True):
+                 done_callback=None):
 
         self.world = world
         self.agents = self.world.policy_agents
@@ -71,11 +71,7 @@ class MultiAgentEnv(gym.Env):
             agent.action.c = np.zeros(self.world.dim_c)
 
         # rendering
-        self.shared_viewer = shared_viewer
-        if self.shared_viewer:
-            self.viewers = [None]
-        else:
-            self.viewers = [None] * self.n
+        self.viewers = [None]
         self._reset_render()
 
     def step(self, action_n):
@@ -250,10 +246,7 @@ class MultiAgentEnv(gym.Env):
             from multiagent import rendering
             # update bounds to center around agent
             cam_range = 1
-            if self.shared_viewer:
-                pos = np.zeros(self.world.dim_p)
-            else:
-                pos = self.agents[i].state.p_pos
+            pos = np.zeros(self.world.dim_p)
             self.viewers[i].set_bounds(pos[0]-cam_range,pos[0]+cam_range,pos[1]-cam_range,pos[1]+cam_range)
             # update geometry positions
             for e, entity in enumerate(self.world.entities):
