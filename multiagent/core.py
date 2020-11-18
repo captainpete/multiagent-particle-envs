@@ -71,6 +71,8 @@ class Agent(Entity):
         self.c_noise = None
         # control range
         self.u_range = 1.0
+        # team membership
+        self.team = 0
         # state
         self.state = AgentState()
         # action
