@@ -3,6 +3,7 @@ from gym import spaces
 from gym.envs.registration import EnvSpec
 import numpy as np
 from multiagent.multi_discrete import MultiDiscrete
+from multiagent.core import Agent
 
 # environment for all agents in the multiagent world
 # currently code assumes that no agents will be created/destroyed at runtime!
@@ -230,7 +231,7 @@ class MultiAgentEnv(gym.Env):
             for entity in self.world.entities:
                 geom = rendering.make_circle(entity.size)
                 xform = rendering.Transform()
-                if 'agent' in entity.name:
+                if type(entity) == Agent:
                     geom.set_color(*entity.color, alpha=0.5)
                 else:
                     geom.set_color(*entity.color)
