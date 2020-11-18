@@ -161,16 +161,22 @@ def train(arglist):
                 loss = agent.update(trainers, train_step)
 
             # save model, display training output
-            if terminal and (len(episode_rewards) % arglist.save_rate == 0):
-                U.save_state(arglist.save_dir, saver=saver)
-                # print statement depends on whether or not there are adversaries
-                if num_adversaries == 0:
-                    print("steps: {}, episodes: {}, mean episode reward: {}, time: {}".format(
-                        train_step, len(episode_rewards), np.mean(episode_rewards[-arglist.save_rate:]), round(time.time()-t_start, 3)))
-                else:
-                    print("steps: {}, episodes: {}, mean episode reward: {}, agent episode reward: {}, time: {}".format(
-                        train_step, len(episode_rewards), np.mean(episode_rewards[-arglist.save_rate:]),
-                        [np.mean(rew[-arglist.save_rate:]) for rew in agent_rewards], round(time.time()-t_start, 3)))
+            if terminal:
+                # check replay buffer status
+                er_status = np.array([[len(t.replay_buffer), t.max_replay_buffer_len] for t in trainers])
+                er_fill_frac = er_status[:, 0] / er_status[:, 1]
+                er_fill_frac_min = er_fill_frac[np.argmin(er_fill_frac)]
+
+                # print progress
+                offset = -1 if train_step == 1 else -2
+                print("steps: {}, replay: {}%%, episodes: {}, mean episode reward: {}, agent episode reward: {}, time: {}".format(
+                    train_step,
+                    round(er_fill_frac_min * 100, 2),
+                    len(episode_rewards),
+                    episode_rewards[offset],
+                    [rew[offset] for rew in agent_rewards],
+                    round(time.time()-t_start, 3)))
+
                 t_start = time.time()
                 # Keep track of final episode reward
                 final_ep_rewards.append(np.mean(episode_rewards[-arglist.save_rate:]))
