@@ -153,7 +153,20 @@ class World(object):
                     p_force[a] = f_a + p_force[a] 
                 if(f_b is not None):
                     if(p_force[b] is None): p_force[b] = 0.0
-                    p_force[b] = f_b + p_force[b]        
+                    p_force[b] = f_b + p_force[b]
+        # wall forces
+        for i, entity in enumerate(self.entities):
+            walls = np.array([
+                [[0, 1], [0, -1]], # top
+                [[-1, 0], [1, 0]], # left
+                [[0, -1], [0, 1]], # bottom
+                [[1, 0], [-1, 0]], # right
+            ])
+            for j in range(walls.shape[0]):
+                f = self.get_wall_force(entity, walls[j])
+                if f is not None:
+                    if p_force[i] is None: p_force[i] = 0.0
+                    p_force[i] += f
         return p_force
 
     # integrate physical state
@@ -196,3 +209,15 @@ class World(object):
         force_a = +force if entity_a.movable else None
         force_b = -force if entity_b.movable else None
         return [force_a, force_b]
+
+    def get_wall_force(self, entity, wall):
+        if (not entity.collide) or (not entity.movable): return None
+        wall_pos, wall_norm = wall[0], wall[1]
+        dist = (entity.state.p_pos - wall_pos) @ wall_norm
+        dist_min = entity.size
+        # softmax penetration
+        k = self.contact_margin
+        penetration = np.logaddexp(0, -(dist - dist_min)/k)*k
+        force = self.contact_force * penetration * wall_norm
+        return force
+
