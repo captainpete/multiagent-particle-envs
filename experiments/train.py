@@ -147,13 +147,12 @@ def train(arglist):
                     break
                 continue
 
-            # for displaying learned policies
-            if arglist.display:
+            # for displaying policies while training
+            if arglist.display and (len(episode_rewards) % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
                 time.sleep(0.1)
                 env.render()
-                continue
 
-            # update all trainers, if not in display or benchmark mode
+            # update all trainers, if not in benchmark mode
             loss = None
             for agent in trainers:
                 agent.preupdate()
