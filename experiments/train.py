@@ -25,7 +25,8 @@ def parse_args():
     # Checkpointing
     parser.add_argument("--exp-name", type=str, default=None, help="name of the experiment")
     parser.add_argument("--save-dir", type=str, default="/tmp/policy/", help="directory in which training state and model should be saved")
-    parser.add_argument("--save-rate", type=int, default=20, help="save model once every time this many episodes are completed")
+    parser.add_argument("--save-rate", type=int, default=40, help="save model once every time this many episodes are completed")
+    parser.add_argument("--display-rate", type=int, default=20, help="display episode once every time this many episodes are completed")
     parser.add_argument("--load-dir", type=str, default="", help="directory in which training state and model are loaded")
     # Evaluation
     parser.add_argument("--restore", action="store_true", default=False)
@@ -148,7 +149,7 @@ def train(arglist):
                 continue
 
             # for displaying policies while training
-            if arglist.display and (len(episode_rewards) % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
+            if arglist.display and (len(episode_rewards) % arglist.display_rate == 0) and er_fill_frac_min >= 1.0:
                 time.sleep(0.1)
                 env.render()
 
