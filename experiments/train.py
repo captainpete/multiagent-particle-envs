@@ -177,10 +177,15 @@ def train(arglist):
                     round(time.time()-t_start, 3)))
 
                 t_start = time.time()
+
                 # Keep track of final episode reward
                 final_ep_rewards.append(np.mean(episode_rewards[-arglist.save_rate:]))
                 for rew in agent_rewards:
                     final_ep_ag_rewards.append(np.mean(rew[-arglist.save_rate:]))
+
+                # save state
+                if (len(episode_rewards) % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
+                    U.save_state(arglist.save_dir, saver=saver)
 
             # saves final episode reward for plotting training curve later
             if len(episode_rewards) > arglist.num_episodes:
@@ -196,3 +201,4 @@ def train(arglist):
 if __name__ == '__main__':
     arglist = parse_args()
     train(arglist)
+
