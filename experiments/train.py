@@ -96,13 +96,11 @@ def train(arglist):
             print('Loading previous state...')
             U.load_state(arglist.load_dir)
 
-        episode_rewards = [0.0]  # sum of rewards for all agents
-        agent_rewards = [[0.0] for _ in range(env.n)]  # individual agent reward
-        final_ep_rewards = []  # sum of rewards for training curve
-        final_ep_ag_rewards = []  # agent rewards for training curve
-        agent_info = [[[]]]  # placeholder for benchmarking info
+        rewards = np.zeros((1, env.n))  # agent reward per step
+        agent_info = [[[]]]             # placeholder for benchmarking info
         saver = tf.train.Saver()
         obs_n = env.reset()
+        episode_number = 0
         episode_step = 0
         train_step = 0
         t_start = time.time()
@@ -111,26 +109,25 @@ def train(arglist):
         while True:
             # get action
             action_n = [agent.action(obs) for agent, obs in zip(trainers,obs_n)]
+
             # environment step
             new_obs_n, rew_n, done_n, info_n = env.step(action_n)
             episode_step += 1
             done = all(done_n)
             terminal = (episode_step >= arglist.max_episode_len)
+
             # collect experience
             for i, agent in enumerate(trainers):
                 agent.experience(obs_n[i], action_n[i], rew_n[i], new_obs_n[i], done_n[i], terminal)
             obs_n = new_obs_n
 
-            for i, rew in enumerate(rew_n):
-                episode_rewards[-1] += rew
-                agent_rewards[i][-1] += rew
+            # record reward
+            rewards[-1, :] += rew_n
 
             if done or terminal:
                 obs_n = env.reset()
                 episode_step = 0
-                episode_rewards.append(0)
-                for a in agent_rewards:
-                    a.append(0)
+                rewards = np.concatenate((rewards, np.zeros((1, env.n))))
                 agent_info.append([[]])
 
             # increment global step counter
@@ -149,7 +146,7 @@ def train(arglist):
                 continue
 
             # for displaying policies while training
-            if arglist.display and (len(episode_rewards) % arglist.display_rate == 0) and er_fill_frac_min >= 1.0:
+            if arglist.display and (episode_number % arglist.display_rate == 0) and episode_number > 0 and er_fill_frac_min >= 1.0:
                 time.sleep(0.1)
                 env.render()
 
@@ -169,34 +166,33 @@ def train(arglist):
 
                 # print progress
                 offset = -1 if train_step == 1 else -2
-                print("steps: {}, replay: {}%%, episodes: {}, mean episode reward: {}, agent episode reward: {}, time: {}".format(
+                print("steps: {}\tepisode: {}\treplay: {:.2f}%\treward: {}\ttime: {}".format(
                     train_step,
-                    round(er_fill_frac_min * 100, 2),
-                    len(episode_rewards),
-                    episode_rewards[offset],
-                    [rew[offset] for rew in agent_rewards],
-                    round(time.time()-t_start, 3)))
+                    episode_number,
+                    er_fill_frac_min * 100,
+                    "\t".join(['[', *["%.2f" % r for r in list(rewards[offset])], ']']),
+                    round(time.time()-t_start, 3))
+                )
 
                 t_start = time.time()
 
-                # Keep track of final episode reward
-                final_ep_rewards.append(np.mean(episode_rewards[-arglist.save_rate:]))
-                for rew in agent_rewards:
-                    final_ep_ag_rewards.append(np.mean(rew[-arglist.save_rate:]))
-
                 # save state
-                if (len(episode_rewards) % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
-                    U.save_state(arglist.save_dir, saver=saver)
+                if (episode_number % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
+                    print("saving...", end='')
+                    # save policy snapshot
+                    snapshot_folder = "{}/{}/{}".format(arglist.save_dir, arglist.exp_name, episode_number)
+                    U.save_state(snapshot_folder, saver=saver)
+                    # save rewards
+                    rew_file_name = arglist.plots_dir + arglist.exp_name + '_rewards.pkl'
+                    with open(rew_file_name, 'wb') as fp:
+                        pickle.dump(rewards, fp)
+                    print("done")
+
+                episode_number += 1
 
             # saves final episode reward for plotting training curve later
-            if len(episode_rewards) > arglist.num_episodes:
-                rew_file_name = arglist.plots_dir + arglist.exp_name + '_rewards.pkl'
-                with open(rew_file_name, 'wb') as fp:
-                    pickle.dump(final_ep_rewards, fp)
-                agrew_file_name = arglist.plots_dir + arglist.exp_name + '_agrewards.pkl'
-                with open(agrew_file_name, 'wb') as fp:
-                    pickle.dump(final_ep_ag_rewards, fp)
-                print('...Finished total of {} episodes.'.format(len(episode_rewards)))
+            if episode_number == arglist.num_episodes:
+                print('...Finished total of {} episodes.'.format(episode_number))
                 break
 
 if __name__ == '__main__':
