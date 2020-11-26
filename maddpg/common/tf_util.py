@@ -218,26 +218,6 @@ def absolute_scope_name(relative_scope_name):
     """Appends parent scope name to `relative_scope_name`"""
     return scope_name() + "/" + relative_scope_name
 
-# ================================================================
-# Saving variables
-# ================================================================
-
-
-def load_state(fname, saver=None):
-    """Load all the variables to the current session from the location <fname>"""
-    if saver is None:
-        saver = tf.train.Saver()
-    saver.restore(get_session(), fname)
-    return saver
-
-
-def save_state(fname, saver=None):
-    """Save all the variables in the current session to the location <fname>"""
-    os.makedirs(os.path.dirname(fname), exist_ok=True)
-    if saver is None:
-        saver = tf.train.Saver()
-    saver.save(get_session(), fname)
-    return saver
 
 # ================================================================
 # Theano-like Function

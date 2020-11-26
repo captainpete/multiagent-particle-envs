@@ -3,6 +3,7 @@ import numpy as np
 import tensorflow as tf
 import time
 import pickle
+import os
 
 import maddpg.common.tf_util as U
 from maddpg.trainer.maddpg import MADDPGAgentTrainer
@@ -84,6 +85,7 @@ def train(arglist):
         obs_shape_n = [env.observation_space[i].shape for i in range(env.n)]
         num_adversaries = min(env.n, arglist.num_adversaries)
         trainers = get_trainers(env, num_adversaries, obs_shape_n, arglist)
+        saver = tf.train.Saver()
         print('Using good policy {} and adv policy {}'.format(arglist.good_policy, arglist.adv_policy))
 
         # Initialize
@@ -94,11 +96,10 @@ def train(arglist):
             arglist.load_dir = arglist.save_dir
         if arglist.restore or arglist.benchmark:
             print('Loading previous state...')
-            U.load_state(arglist.load_dir)
+            saver.restore(U.get_session(), arglist.load_dir)
 
         rewards = np.zeros((1, env.n))  # agent reward per step
         agent_info = [[[]]]             # placeholder for benchmarking info
-        saver = tf.train.Saver()
         obs_n = env.reset()
         episode_number = 0
         episode_step = 0
@@ -180,8 +181,9 @@ def train(arglist):
                 if (episode_number % arglist.save_rate == 0) and er_fill_frac_min >= 1.0:
                     print("saving...", end='')
                     # save policy snapshot
-                    snapshot_folder = "{}/{}/{}".format(arglist.save_dir, arglist.exp_name, episode_number)
-                    U.save_state(snapshot_folder, saver=saver)
+                    snapshot_folder = "{}/{}".format(arglist.save_dir, arglist.exp_name)
+                    os.makedirs(snapshot_folder, exist_ok=True)
+                    saver.save(U.get_session(), snapshot_folder)
                     # save rewards
                     rew_file_name = arglist.plots_dir + arglist.exp_name + '_rewards.pkl'
                     with open(rew_file_name, 'wb') as fp:
