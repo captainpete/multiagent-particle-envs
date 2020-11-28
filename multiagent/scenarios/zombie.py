@@ -2,6 +2,19 @@ import numpy as np
 from multiagent.core import World, Agent, Landmark
 from multiagent.scenario import BaseScenario
 
+# 2D simple physics with agent collissions bordered by a force field.
+
+# action space:
+#   2D continuous action space (up/down, left/right)
+
+# observation space:
+#   Complete information on 2D relative position and velocity at every step for
+#   every other agent in order of unchanging index (agents have identity).
+
+# reward function:
+#   When a zombie and human come into contact then 10 reward is deducted from
+#   the human and awarded to the zombie for every simulation step they remain
+#   in contact.
 
 class Scenario(BaseScenario):
     def make_world(self):
