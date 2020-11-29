@@ -181,6 +181,11 @@ class World(object):
             noise = np.random.randn(*agent.action.c.shape) * agent.c_noise if agent.c_noise else 0.0
             agent.state.c = agent.action.c + noise      
 
+    def distance(self, agent, other):
+        delta_pos = agent.state.p_pos - other.state.p_pos
+        dist = np.sqrt(np.sum(np.square(delta_pos)))
+        return (delta_pos, dist)
+
     # get collision forces for any contact between two entities
     def get_collision_force(self, entity_a, entity_b):
         if (not entity_a.collide) or (not entity_b.collide):
@@ -188,8 +193,7 @@ class World(object):
         if (entity_a is entity_b):
             return [None, None] # don't collide against itself
         # compute actual distance between entities
-        delta_pos = entity_a.state.p_pos - entity_b.state.p_pos
-        dist = np.sqrt(np.sum(np.square(delta_pos)))
+        delta_pos, dist = self.distance(entity_a, entity_b)
         # minimum allowable distance
         dist_min = entity_a.size + entity_b.size
         # softmax penetration
