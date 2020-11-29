@@ -44,11 +44,7 @@ class Entity(object):
         # state
         self.state = EntityState()
         # mass
-        self.initial_mass = 1.0
-
-    @property
-    def mass(self):
-        return self.initial_mass
+        self.mass = 1.0
 
 # properties of agent entities
 class Agent(Entity):
