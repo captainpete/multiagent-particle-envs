@@ -8,8 +8,10 @@ from multiagent.scenario import BaseScenario
 #   2D continuous action space (up/down, left/right)
 
 # observation space:
-#   Complete information on 2D relative position and velocity at every step for
-#   every other agent in order of unchanging index (agents have identity).
+#   Complete information on 2D positions of all agents (continuous 4D *
+#   agents). This includes absolute position and velocity for the agent itself,
+#   and relative position and velociry for other humans, and other zombies
+#   (agents have identity by index position).
 
 # reward function:
 #   When a zombie and human come into contact then 10 reward is deducted from
@@ -56,7 +58,6 @@ class Scenario(BaseScenario):
         self.reset_world(world)
 
         return world
-
 
     def reset_world(self, world):
         # random properties for agents
