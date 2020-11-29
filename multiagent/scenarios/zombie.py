@@ -79,51 +79,14 @@ class Scenario(BaseScenario):
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
 
-    def distance(self, agent, other):
-        delta_pos = agent.state.p_pos - other.state.p_pos
-        return np.sqrt(np.sum(np.square(delta_pos)))
-
-    def is_collision(self, agent1, agent2):
-        dist = self.distance(agent1, agent2)
-        dist_min = agent1.size + agent2.size
-        return True if dist < dist_min else False
-
-    def humans(self, world):
-        return [agent for agent in world.agents if agent.team == 0]
-
-    def zombies(self, world):
-        return [agent for agent in world.agents if agent.team == 1]
-
     def reward(self, agent, world):
         if agent.team == 0:
-            return self.human_reward(agent, world)
+            return -10 * agent.state.biting
         elif agent.team == 1:
-            return self.zombie_reward(agent, world)
+            return 10 * agent.state.biting
         else:
             raise "Undefined reward for team %d" % agent.team
 
-    def human_reward(self, agent, world):
-        rew = 0
-        zombies = self.zombies(world)
-
-        # remove reward for being attacked by a zombie
-        if agent.collide:
-            for a in zombies:
-                if self.is_collision(a, agent):
-                    rew -= 10
-
-        return rew
-
-    def zombie_reward(self, agent, world):
-        rew = 0
-        humans = self.humans(world)
-
-        # add reward for attacking a human
-        for a in humans:
-            if self.is_collision(a, agent):
-                rew += 10
-
-        return rew
     def observation(self, agent, world):
         pos = []
         vel = []

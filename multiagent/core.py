@@ -185,19 +185,19 @@ class World(object):
 
         # effects of human-zombie collisions
         for agent in self.agents:
-            agent.biting = 0
+            agent.state.biting = 0
         for a, agent_a in enumerate(self.agents):
             for b, agent_b in enumerate(self.agents):
                 if(b <= a): continue
                 # skip if same team
                 if(agent_a.team == agent_b.team): continue
                 # skip if not touching
-                _, dist = distance(agent_a, agent_b)
+                _, dist = self.distance(agent_a, agent_b)
                 min_dist = agent_a.size + agent_b.size
                 if(dist > min_dist): continue
                 # increase biting count
-                agent_a.biting += 1
-                agent_b.biting += 1
+                agent_a.state.biting += 1
+                agent_b.state.biting += 1
 
     def distance(self, agent, other):
         delta_pos = agent.state.p_pos - other.state.p_pos
