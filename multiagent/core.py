@@ -50,11 +50,6 @@ class Entity(object):
     def mass(self):
         return self.initial_mass
 
-# properties of landmark entities
-class Landmark(Entity):
-     def __init__(self):
-        super(Landmark, self).__init__()
-
 # properties of agent entities
 class Agent(Entity):
     def __init__(self):
@@ -85,7 +80,6 @@ class World(object):
     def __init__(self):
         # list of agents and entities (can change at execution-time!)
         self.agents = []
-        self.landmarks = []
         # communication channel dimensionality
         self.dim_c = 0
         # position dimensionality
@@ -103,7 +97,7 @@ class World(object):
     # return all entities in the world
     @property
     def entities(self):
-        return self.agents + self.landmarks
+        return self.agents
 
     # return all agents controllable by external policies
     @property
