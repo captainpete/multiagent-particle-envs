@@ -124,46 +124,27 @@ class Scenario(BaseScenario):
                 rew += 10
 
         return rew
-
-    def human_observation(self, agent, world):
-        other_pos = []
-        other_vel = []
-
-        humans = self.humans(world)
-        for other in humans:
-            if other is agent: continue
-            other_pos.append(other.state.p_pos - agent.state.p_pos)
-            other_vel.append(other.state.p_vel - agent.state.p_vel)
-
-        zombies = self.zombies(world)
-        for other in zombies:
-            other_pos.append(other.state.p_pos - agent.state.p_pos)
-            other_vel.append(other.state.p_vel - agent.state.p_vel)
-
-        return np.concatenate([agent.state.p_vel] + [agent.state.p_pos] + other_pos + other_vel)
-
-    def zombie_observation(self, agent, world):
-        other_pos = []
-        other_vel = []
-
-        humans = self.humans(world)
-        for other in humans:
-            other_pos.append(other.state.p_pos - agent.state.p_pos)
-            other_vel.append(other.state.p_vel - agent.state.p_vel)
-
-        zombies = self.zombies(world)
-        for other in zombies:
-            if other is agent: continue
-            other_pos.append(other.state.p_pos - agent.state.p_pos)
-            other_vel.append(other.state.p_vel - agent.state.p_vel)
-
-        return np.concatenate([agent.state.p_vel] + [agent.state.p_pos] + other_pos + other_vel)
-
     def observation(self, agent, world):
-        if agent.team == 0:
-            return self.human_observation(agent, world)
-        elif agent.team == 1:
-            return self.zombie_observation(agent, world)
-        else:
-            raise "Unknown observation for team %d" % agent.team
+        pos = []
+        vel = []
+
+        # absolute position of agent
+        pos.append(agent.state.p_pos)
+        vel.append(agent.state.p_vel)
+
+        # relative position of all other humans
+        humans = [agent for agent in world.agents if agent.team == 0]
+        for other in humans:
+            if other is agent: continue
+            pos.append(other.state.p_pos - agent.state.p_pos)
+            vel.append(other.state.p_vel - agent.state.p_vel)
+
+        # relative position of all other zombies
+        zombies = [agent for agent in world.agents if agent.team == 1]
+        for other in zombies:
+            if other is agent: continue
+            pos.append(other.state.p_pos - agent.state.p_pos)
+            vel.append(other.state.p_vel - agent.state.p_vel)
+
+        return np.concatenate([agent.state.p_vel] + [agent.state.p_pos] + pos + vel)
 
