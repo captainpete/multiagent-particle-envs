@@ -1,5 +1,5 @@
 import numpy as np
-from multiagent.core import World, Agent, Landmark
+from multiagent.core import World, Agent
 from multiagent.scenario import BaseScenario
 
 # 2D simple physics with agent collissions bordered by a force field.
