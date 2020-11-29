@@ -74,7 +74,7 @@ class Scenario(BaseScenario):
             elif agent.team == 1:
                 agent.state.p_pos = np.random.uniform(-.9, .9, world.dim_p)
             else:
-                raise f"don't know where to start agent in team {agent.team}"
+                raise f"Undefined start location for agent in team {agent.team}"
 
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
@@ -100,7 +100,7 @@ class Scenario(BaseScenario):
         elif agent.team == 1:
             return self.zombie_reward(agent, world)
         else:
-            raise "Unknown reward for team %d" % agent.team
+            raise "Undefined reward for team %d" % agent.team
 
     def human_reward(self, agent, world):
         rew = 0
