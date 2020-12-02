@@ -88,26 +88,21 @@ class Scenario(BaseScenario):
             raise "Undefined reward for team %d" % agent.team
 
     def observation(self, agent, world):
-        pos = []
-        vel = []
+        agents = world.agents
+        s = (2 + 2) * len(agents)
+        obs = np.zeros((s,))
+        i = 0
 
-        # absolute position of agent
-        pos.append(agent.state.p_pos)
-        vel.append(agent.state.p_vel)
+        for other in agents:
+            if other is agent:
+                # absolute position of agent
+                obs[i:i+2] = agent.state.p_pos; i += 2
+                obs[i:i+2] = agent.state.p_vel; i += 2
+            else:
+                # relative position of all other agents
+                obs[i:i+2] = other.state.p_pos - agent.state.p_pos; i += 2
+                obs[i:i+2] = other.state.p_vel - agent.state.p_vel; i += 2
+        assert i == s
 
-        # relative position of all other humans
-        humans = [agent for agent in world.agents if agent.team == 0]
-        for other in humans:
-            if other is agent: continue
-            pos.append(other.state.p_pos - agent.state.p_pos)
-            vel.append(other.state.p_vel - agent.state.p_vel)
-
-        # relative position of all other zombies
-        zombies = [agent for agent in world.agents if agent.team == 1]
-        for other in zombies:
-            if other is agent: continue
-            pos.append(other.state.p_pos - agent.state.p_pos)
-            vel.append(other.state.p_vel - agent.state.p_vel)
-
-        return np.concatenate([agent.state.p_vel] + [agent.state.p_pos] + pos + vel)
+        return obs
 
