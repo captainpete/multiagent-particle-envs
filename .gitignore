@@ -1,3 +1,6 @@
 __pycache__/
 *.egg-info/
 *.pyc
+
+learning_curves/
+policy_snapshots/
