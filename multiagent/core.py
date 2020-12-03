@@ -16,6 +16,8 @@ class AgentState(EntityState):
         self.c = None
         # current number of zombie to human physical contacts
         self.biting = 0
+        # health
+        self.health = 1.0
 
 # action of the agent
 class Action(object):
@@ -68,6 +70,7 @@ class Agent(Entity):
         self.team = 0
         # state
         self.state = AgentState()
+        self.health_decay = 1.0
         # action
         self.action = Action()
         # script behavior to execute
@@ -170,9 +173,10 @@ class World(object):
                 entity.state.p_vel += (p_force[i] / entity.mass) * self.dt
             if entity.max_speed is not None:
                 speed = np.sqrt(np.square(entity.state.p_vel[0]) + np.square(entity.state.p_vel[1]))
-                if speed > entity.max_speed:
+                max_speed = entity.max_speed * entity.state.health
+                if speed > max_speed:
                     entity.state.p_vel = entity.state.p_vel / np.sqrt(np.square(entity.state.p_vel[0]) +
-                                                                  np.square(entity.state.p_vel[1])) * entity.max_speed
+                                                                  np.square(entity.state.p_vel[1])) * max_speed
             entity.state.p_pos += entity.state.p_vel * self.dt
 
     def update_agent_state(self, agent):
@@ -198,6 +202,9 @@ class World(object):
                 # increase biting count
                 agent_a.state.biting += 1
                 agent_b.state.biting += 1
+                human = agent_a if agent_a.team == 0 else agent_b
+                human.state.health *= human.health_decay
+                # DISCUSS: transfer some human mass and size to zombie...?
 
     def distance(self, agent, other):
         delta_pos = agent.state.p_pos - other.state.p_pos
