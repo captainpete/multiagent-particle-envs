@@ -26,12 +26,8 @@ class MultiAgentEnv(gym.Env):
         self.observation_callback = observation_callback
         self.info_callback = info_callback
         self.done_callback = done_callback
-        # environment parameters
-        self.discrete_action_space = True
         # if true, action is a number 0...N, otherwise action is a one-hot N-dimensional vector
         self.discrete_action_input = False
-        # if true, even the action is continuous, action will be performed discretely
-        self.force_discrete_action = world.discrete_action if hasattr(world, 'discrete_action') else False
         # if true, every agent has the same reward
         self.shared_reward = world.collaborative if hasattr(world, 'collaborative') else False
         self.time = 0
@@ -42,26 +38,17 @@ class MultiAgentEnv(gym.Env):
         for agent in self.agents:
             total_action_space = []
             # physical action space
-            if self.discrete_action_space:
-                u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
-            else:
-                u_action_space = spaces.Box(low=-agent.u_range, high=+agent.u_range, shape=(world.dim_p,), dtype=np.float32)
+            u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
             if agent.movable:
                 total_action_space.append(u_action_space)
             # communication action space
-            if self.discrete_action_space:
-                c_action_space = spaces.Discrete(world.dim_c)
-            else:
-                c_action_space = spaces.Box(low=0.0, high=1.0, shape=(world.dim_c,), dtype=np.float32)
+            c_action_space = spaces.Discrete(world.dim_c)
             if not agent.silent:
                 total_action_space.append(c_action_space)
             # total action space
             if len(total_action_space) > 1:
                 # all action spaces are discrete, so simplify to MultiDiscrete action space
-                if all([isinstance(act_space, spaces.Discrete) for act_space in total_action_space]):
-                    act_space = MultiDiscrete([[0, act_space.n - 1] for act_space in total_action_space])
-                else:
-                    act_space = spaces.Tuple(total_action_space)
+                act_space = MultiDiscrete([[0, act_space.n - 1] for act_space in total_action_space])
                 self.action_space.append(act_space)
             else:
                 self.action_space.append(total_action_space[0])
@@ -163,15 +150,8 @@ class MultiAgentEnv(gym.Env):
                 if action[0] == 3: agent.action.u[1] = -1.0
                 if action[0] == 4: agent.action.u[1] = +1.0
             else:
-                if self.force_discrete_action:
-                    d = np.argmax(action[0])
-                    action[0][:] = 0.0
-                    action[0][d] = 1.0
-                if self.discrete_action_space:
-                    agent.action.u[0] += action[0][1] - action[0][2]
-                    agent.action.u[1] += action[0][3] - action[0][4]
-                else:
-                    agent.action.u = action[0]
+                agent.action.u[0] += action[0][1] - action[0][2]
+                agent.action.u[1] += action[0][3] - action[0][4]
             sensitivity = 5.0
             if agent.accel is not None:
                 sensitivity = agent.accel
