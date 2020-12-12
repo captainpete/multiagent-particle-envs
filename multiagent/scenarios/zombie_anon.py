@@ -33,7 +33,6 @@ class Scenario(BaseScenario):
         for i in range(num_humans):
             agent = Agent()
             agent.collide = True
-            agent.silent = False
             agent.team = 0
             agent.name = 'human %d' % i
             agent.size = 0.05
@@ -44,7 +43,6 @@ class Scenario(BaseScenario):
         for i in range(num_zombies):
             agent = Agent()
             agent.collide = True
-            agent.silent = False
             agent.team = 1
             agent.name = 'zombie %d' % i
             agent.size = 0.05

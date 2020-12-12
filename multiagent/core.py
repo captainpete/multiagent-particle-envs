@@ -12,8 +12,6 @@ class EntityState(object):
 class AgentState(EntityState):
     def __init__(self):
         super(AgentState, self).__init__()
-        # communication utterance
-        self.c = None
         # current number of zombie to human physical contacts
         self.biting = 0
         # health
@@ -24,8 +22,6 @@ class Action(object):
     def __init__(self):
         # physical action
         self.u = None
-        # communication action
-        self.c = None
 
 # properties and state of physical world entity
 class Entity(object):
@@ -56,14 +52,10 @@ class Agent(Entity):
         super(Agent, self).__init__()
         # agents are movable by default
         self.movable = True
-        # cannot send communication signals
-        self.silent = False
         # cannot observe the world
         self.blind = False
         # physical motor noise amount
         self.u_noise = None
-        # communication noise amount
-        self.c_noise = None
         # control range
         self.u_range = 1.0
         # team membership
@@ -180,12 +172,6 @@ class World(object):
             entity.state.p_pos += entity.state.p_vel * self.dt
 
     def update_agent_state(self, agent):
-        # set communication state (directly for now)
-        if agent.silent:
-            agent.state.c = np.zeros(self.dim_c)
-        else:
-            noise = np.random.randn(*agent.action.c.shape) * agent.c_noise if agent.c_noise else 0.0
-            agent.state.c = agent.action.c + noise      
 
         # effects of human-zombie collisions
         for agent in self.agents:

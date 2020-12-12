@@ -41,10 +41,6 @@ class MultiAgentEnv(gym.Env):
             u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
             if agent.movable:
                 total_action_space.append(u_action_space)
-            # communication action space
-            c_action_space = spaces.Discrete(world.dim_c)
-            if not agent.silent:
-                total_action_space.append(c_action_space)
             # total action space
             if len(total_action_space) > 1:
                 # all action spaces are discrete, so simplify to MultiDiscrete action space
@@ -55,7 +51,6 @@ class MultiAgentEnv(gym.Env):
             # observation space
             obs_dim = len(observation_callback(agent, self.world))
             self.observation_space.append(spaces.Box(low=-np.inf, high=+np.inf, shape=(obs_dim,), dtype=np.float32))
-            agent.action.c = np.zeros(self.world.dim_c)
 
         # rendering
         self.viewers = [None]
@@ -127,7 +122,6 @@ class MultiAgentEnv(gym.Env):
     # set env action for a particular agent
     def _set_action(self, action, agent, action_space, time=None):
         agent.action.u = np.zeros(self.world.dim_p)
-        agent.action.c = np.zeros(self.world.dim_c)
         # process action
         if isinstance(action_space, MultiDiscrete):
             act = []
@@ -157,14 +151,6 @@ class MultiAgentEnv(gym.Env):
                 sensitivity = agent.accel
             agent.action.u *= sensitivity
             action = action[1:]
-        if not agent.silent:
-            # communication action
-            if self.discrete_action_input:
-                agent.action.c = np.zeros(self.world.dim_c)
-                agent.action.c[action[0]] = 1.0
-            else:
-                agent.action.c = action[0]
-            action = action[1:]
         # make sure we used all elements of action
         assert len(action) == 0
 
@@ -175,19 +161,6 @@ class MultiAgentEnv(gym.Env):
 
     # render environment
     def render(self, mode='human'):
-        # if mode == 'human':
-        #     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        #     message = ''
-        #     for agent in self.world.agents:
-        #         comm = []
-        #         for other in self.world.agents:
-        #             if other is agent: continue
-        #             if np.all(other.state.c == 0):
-        #                 word = '_'
-        #             else:
-        #                 word = alphabet[np.argmax(other.state.c)]
-        #             message += (other.name + ' to ' + agent.name + ': ' + word + '   ')
-        #     print(message)
 
         for i in range(len(self.viewers)):
             # create viewers (if necessary)
