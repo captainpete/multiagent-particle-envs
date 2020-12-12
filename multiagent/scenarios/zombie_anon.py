@@ -23,7 +23,6 @@ class Scenario(BaseScenario):
         world = World()
 
         # set any world properties first
-        world.dim_c = 2
         num_humans = 2
         num_zombies = 5
         num_agents = num_humans + num_zombies
@@ -77,7 +76,6 @@ class Scenario(BaseScenario):
                 raise f"Undefined start location for agent in team {agent.team}"
 
             agent.state.p_vel = np.zeros(world.dim_p)
-            agent.state.c = np.zeros(world.dim_c)
 
     def reward(self, agent, world):
         if agent.team == 0:
