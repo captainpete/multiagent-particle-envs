@@ -34,8 +34,6 @@ class Entity(object):
         self.movable = False
         # entity collides with others
         self.collide = True
-        # material density (affects mass)
-        self.density = 25.0
         # color
         self.color = None
         # max speed and accel
