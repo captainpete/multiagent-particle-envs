@@ -59,7 +59,6 @@ class MultiAgentEnv(gym.Env):
         reward_n = []
         done_n = []
         info_n = {'n': []}
-        self.agents = self.world.policy_agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
             self._set_action(action_n[i], agent, self.action_space[i])
@@ -85,7 +84,6 @@ class MultiAgentEnv(gym.Env):
         self._reset_render()
         # record observations for each agent
         obs_n = []
-        self.agents = self.world.policy_agents
         for agent in self.agents:
             obs_n.append(self._get_obs(agent))
         return obs_n
