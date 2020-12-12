@@ -15,9 +15,6 @@ def parse_args():
     parser.add_argument("--scenario", type=str, default="zombie", help="name of the scenario script")
     parser.add_argument("--max-episode-len", type=int, default=100, help="maximum episode length")
     parser.add_argument("--num-episodes", type=int, default=10000, help="number of episodes")
-    parser.add_argument("--num-adversaries", type=int, default=0, help="number of adversaries")
-    parser.add_argument("--good-policy", type=str, default="maddpg", help="policy for good agents")
-    parser.add_argument("--adv-policy", type=str, default="maddpg", help="policy of adversaries")
     # Core training parameters
     parser.add_argument("--lr", type=float, default=1e-2, help="learning rate for Adam optimizer")
     parser.add_argument("--gamma", type=float, default=0.95, help="discount factor")
@@ -57,31 +54,29 @@ def make_env(scenario_name, arglist):
 
     return env
 
-def get_trainers(env, num_adversaries, obs_shape_n, arglist):
-    trainers = []
-    model = mlp_model
-    trainer = MADDPGAgentTrainer
-    for i in range(num_adversaries):
-        trainers.append(trainer(
-            "agent_%d" % i, model, obs_shape_n, env.action_space, i, arglist,
-            local_q_func=(arglist.adv_policy=='ddpg')))
-    for i in range(num_adversaries, env.n):
-        trainers.append(trainer(
-            "agent_%d" % i, model, obs_shape_n, env.action_space, i, arglist,
-            local_q_func=(arglist.good_policy=='ddpg')))
-    return trainers
-
-
 def train(arglist):
     with U.single_threaded_session():
         # Create environment
         env = make_env(arglist.scenario, arglist)
+        n = len(env.agents)
+
         # Create agent trainers
-        obs_shape_n = [env.observation_space[i].shape for i in range(env.n)]
-        num_adversaries = min(env.n, arglist.num_adversaries)
-        trainers = get_trainers(env, num_adversaries, obs_shape_n, arglist)
+        obs_shape_n = [env.observation_space[i].shape for i in range(n)]
+        trainers = []
+        for i in range(n):
+            trainers.append(
+                MADDPGAgentTrainer(
+                    "agent_%d" % i,
+                    mlp_model,
+                    obs_shape_n,
+                    env.action_space,
+                    i,
+                    arglist,
+                    local_q_func=False
+                )
+            )
+
         saver = tf.train.Saver(max_to_keep=None)
-        print('Using good policy {} and adv policy {}'.format(arglist.good_policy, arglist.adv_policy))
 
         # Initialize
         U.initialize()
