@@ -32,9 +32,6 @@ def parse_args():
     # Evaluation
     parser.add_argument("--restore", action="store_true", default=False)
     parser.add_argument("--display", action="store_true", default=True)
-    parser.add_argument("--benchmark", action="store_true", default=False)
-    parser.add_argument("--benchmark-iters", type=int, default=100000, help="number of iterations run for benchmarking")
-    parser.add_argument("--benchmark-dir", type=str, default="./benchmark_files/", help="directory where benchmark data is saved")
     parser.add_argument("--plots-dir", type=str, default="./learning_curves/", help="directory where plot data is saved")
     return parser.parse_args()
 
@@ -47,7 +44,7 @@ def mlp_model(input, num_outputs, scope, reuse=False, num_units=64, rnn_cell=Non
         out = layers.fully_connected(out, num_outputs=num_outputs, activation_fn=None)
         return out
 
-def make_env(scenario_name, arglist, benchmark=False):
+def make_env(scenario_name, arglist):
     from multiagent.environment import MultiAgentEnv
     import multiagent.scenarios as scenarios
 
@@ -56,10 +53,8 @@ def make_env(scenario_name, arglist, benchmark=False):
     # create world
     world = scenario.make_world()
     # create multiagent environment
-    if benchmark:
-        env = MultiAgentEnv(world, scenario.reset_world, scenario.reward, scenario.observation, scenario.benchmark_data)
-    else:
-        env = MultiAgentEnv(world, scenario.reset_world, scenario.reward, scenario.observation)
+    env = MultiAgentEnv(world, scenario.reset_world, scenario.reward, scenario.observation)
+
     return env
 
 def get_trainers(env, num_adversaries, obs_shape_n, arglist):
@@ -80,7 +75,7 @@ def get_trainers(env, num_adversaries, obs_shape_n, arglist):
 def train(arglist):
     with U.single_threaded_session():
         # Create environment
-        env = make_env(arglist.scenario, arglist, arglist.benchmark)
+        env = make_env(arglist.scenario, arglist)
         # Create agent trainers
         obs_shape_n = [env.observation_space[i].shape for i in range(env.n)]
         num_adversaries = min(env.n, arglist.num_adversaries)
@@ -94,12 +89,11 @@ def train(arglist):
         # Load previous results, if necessary
         if arglist.load_dir == "":
             arglist.load_dir = arglist.save_dir
-        if arglist.restore or arglist.benchmark:
+        if arglist.restore:
             print('Loading previous state...')
             saver.restore(U.get_session(), arglist.load_dir)
 
         rewards = np.zeros((1, env.n))  # agent reward per step
-        agent_info = [[[]]]             # placeholder for benchmarking info
         obs_n = env.reset()
         episode_number = 0
         episode_step = 0
@@ -129,29 +123,16 @@ def train(arglist):
                 obs_n = env.reset()
                 episode_step = 0
                 rewards = np.concatenate((rewards, np.zeros((1, env.n))))
-                agent_info.append([[]])
 
             # increment global step counter
             train_step += 1
-
-            # for benchmarking learned policies
-            if arglist.benchmark:
-                for i, info in enumerate(info_n):
-                    agent_info[-1][i].append(info_n['n'])
-                if train_step > arglist.benchmark_iters and (done or terminal):
-                    file_name = arglist.benchmark_dir + arglist.exp_name + '.pkl'
-                    print('Finished benchmarking, now saving...')
-                    with open(file_name, 'wb') as fp:
-                        pickle.dump(agent_info[:-1], fp)
-                    break
-                continue
 
             # for displaying policies while training
             if arglist.display and (episode_number % arglist.display_rate == 0) and episode_number > 0 and er_fill_frac_min >= 1.0:
                 time.sleep(0.1)
                 env.render()
 
-            # update all trainers, if not in benchmark mode
+            # update all trainers
             loss = None
             for agent in trainers:
                 agent.preupdate()
