@@ -16,12 +16,20 @@ class AgentState(EntityState):
         self.biting = 0
         # health
         self.health = 1.0
+        # fraction of time until can fire again (0: reloaded, 1: just fired)
+        self.reloading = 0.0
+        # which way is the agent aiming?
+        self.aim_heading = None
+        # angular velocity of aim
+        self.aim_vel = None
 
 # action of the agent
 class Action(object):
     def __init__(self):
         # physical action
         self.u = None
+        # arms action
+        self.a = None
 
 # properties and state of physical world entity
 class Entity(object):
@@ -52,8 +60,22 @@ class Agent(Entity):
         self.movable = True
         # cannot observe the world
         self.blind = False
+        # can the agent shoot?
+        self.armed = False
+        # aim physics
+        self.max_aim_vel = 2*np.pi
+        self.arms_act_pres = 0.5
+        self.arms_act_sens = 20
+        self.arms_pallet_count = 6
+        self.arms_pallet_damage = 0.05
+        self.arms_pallet_range = 10
+        self.arms_pallet_spread = 10 /360.0*2*np.pi
+        # time taken to reload
+        self.arms_reload_time = 0.5
         # physical motor noise amount
         self.u_noise = None
+        # arms handling noise
+        self.a_noise = None
         # control range
         self.u_range = 1.0
         # team membership
@@ -84,6 +106,8 @@ class World(object):
         # contact response parameters
         self.contact_force = 1e+2
         self.contact_margin = 1e-3
+        # projectile paths
+        self.projectiles = None
 
     # return all entities in the world
     @property
@@ -114,6 +138,7 @@ class World(object):
         # integrate physical state
         self.integrate_state(p_force)
         # update agent state
+        self.projectiles = np.zeros((0, 4))
         for agent in self.agents:
             self.update_agent_state(agent)
 
@@ -156,7 +181,7 @@ class World(object):
 
     # integrate physical state
     def integrate_state(self, p_force):
-        for i,entity in enumerate(self.entities):
+        for i, entity in enumerate(self.entities):
             if not entity.movable: continue
             entity.state.p_vel = entity.state.p_vel * (1 - self.damping)
             if (p_force[i] is not None):
@@ -170,6 +195,63 @@ class World(object):
             entity.state.p_pos += entity.state.p_vel * self.dt
 
     def update_agent_state(self, agent):
+
+        # compute ballistics
+        if agent.armed:
+
+            # aim direction
+            noise = np.random.randn(*agent.action.a.shape) * agent.a_noise if agent.a_noise else 0.0
+            agent.state.aim_vel = (agent.action.a[0] + noise) * agent.max_aim_vel
+            agent.state.aim_heading += agent.state.aim_vel * self.dt
+            agent.state.aim_heading %= 2 * np.pi
+
+            # firing
+            if agent.state.reloading > 0:
+                reload_amount = self.dt / agent.arms_reload_time
+                agent.state.reloading = np.clip(agent.state.reloading - reload_amount, 0.0, 1.0)
+            else:
+                a_force = agent.action.a[1] + noise
+                act_prob = 1/(1+np.exp(agent.arms_act_sens * (agent.arms_act_pres - a_force)))
+                activated = np.random.binomial(1, act_prob * agent.state.health)
+                if activated:
+                    agent.state.reloading = 1.0
+
+                    # create rays representing projectiles
+                    ray_pos = agent.state.p_pos + np.array([np.cos(agent.state.aim_heading), np.sin(agent.state.aim_heading)]) * agent.size * 1.5
+                    ray_ang = np.random.normal(agent.state.aim_heading, agent.arms_pallet_spread, agent.arms_pallet_count)
+                    rays = np.array([np.cos(ray_ang), np.sin(ray_ang)]).transpose()
+                    others = np.array([other for other in self.agents if other is not agent])
+                    dists = np.full((rays.shape[0], len(others)), np.inf)
+
+                    # find intersecting points with other agents
+                    for o, other in enumerate(others):
+                        # algo adapted from ray-sphere collision in github.com/adamlwgriffiths/Pyrr
+                        delta_pos = ray_pos - other.state.p_pos
+                        b = 2 * np.dot(rays, delta_pos)
+                        c = np.dot(delta_pos, delta_pos) - other.size ** 2
+                        delta = b ** 2 - 4 * c
+                        hits = np.arange(delta.shape[0])[delta >= 0]
+                        q = -0.5 * (b[hits] + ((b[hits] > 0) * 2 - 1) * np.sqrt(delta[hits]))
+                        d = np.min(np.array([q, c/q]), axis=0)
+                        dists[hits, o] = d
+
+                    # figure out which agents were hit
+                    dists[dists < 0] = np.inf
+                    closest = np.argmin(dists, axis=1)
+                    min_dists = np.min(dists, axis=1)
+                    closest_in_range = closest[min_dists < agent.arms_pallet_range]
+                    min_dists = np.clip(min_dists, 0, agent.arms_pallet_range)
+
+                    # deduct health from agents that were hit
+                    for other in others[closest_in_range]:
+                        other.state.health = np.clip(other.state.health - agent.arms_pallet_damage, 0.0, 1.0)
+
+                    # ray segments for rendering
+                    new_projectiles = np.concatenate((
+                        np.tile(ray_pos, (rays.shape[0], 1)),
+                        ray_pos + rays * min_dists.reshape((-1, 1))
+                    ), axis=1)
+                    self.projectiles = np.concatenate((self.projectiles, new_projectiles), axis=0)
 
         # effects of human-zombie collisions
         for agent in self.agents:
