@@ -88,7 +88,7 @@ def train(arglist):
             print('Loading previous state...')
             saver.restore(U.get_session(), arglist.load_dir)
 
-        rewards = np.zeros((1, env.n))  # agent reward per step
+        rewards = np.zeros((1, n))  # agent reward per step
         obs_n = env.reset()
         episode_number = 0
         episode_step = 0
@@ -117,7 +117,7 @@ def train(arglist):
             if done or terminal:
                 obs_n = env.reset()
                 episode_step = 0
-                rewards = np.concatenate((rewards, np.zeros((1, env.n))))
+                rewards = np.concatenate((rewards, np.zeros((1, n))))
 
             # increment global step counter
             train_step += 1
