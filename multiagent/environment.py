@@ -39,6 +39,10 @@ class MultiAgentEnv(gym.Env):
             if agent.movable:
                 u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
                 total_action_space.append(u_action_space)
+            # arms action space
+            if agent.armed:
+                a_action_space = spaces.Discrete(5) # inop, left, right, trigger, safety
+                total_action_space.append(a_action_space)
             # total action space
             if len(total_action_space) > 1:
                 # all action spaces are discrete, so simplify to MultiDiscrete action space
@@ -49,6 +53,7 @@ class MultiAgentEnv(gym.Env):
             # observation space
             obs_dim = len(observation_callback(agent, self.world))
             self.observation_space.append(spaces.Box(low=-np.inf, high=+np.inf, shape=(obs_dim,), dtype=np.float32))
+            agent.action.a = np.zeros(2)
 
         # rendering
         self.viewers = [None]
@@ -109,7 +114,8 @@ class MultiAgentEnv(gym.Env):
 
     # set env action for a particular agent
     def _set_action(self, action, agent, action_space, time=None):
-        agent.action.u = np.zeros(self.world.dim_p)
+        agent.action.u = np.zeros(self.world.dim_p) # force along dimensions
+        agent.action.a = np.zeros(2) # rotation, trigger-pressure
         # process action
         if isinstance(action_space, MultiDiscrete):
             act = []
@@ -138,6 +144,16 @@ class MultiAgentEnv(gym.Env):
                 sensitivity = agent.accel
             agent.action.u *= sensitivity
             action = action[1:]
+
+        if agent.armed:
+            # arms action
+            if self.discrete_action_input:
+                raise NotImplemented
+            else:
+                agent.action.a[0] += action[0][1] - action[0][2]
+                agent.action.a[1] += action[0][3] - action[0][4]
+            action = action[1:]
+
         # make sure we used all elements of action
         assert len(action) == 0
 
@@ -164,8 +180,18 @@ class MultiAgentEnv(gym.Env):
             from multiagent import rendering
             self.render_geoms = []
             self.render_geoms_xform = []
-            for entity in self.world.entities:
-                geom = rendering.make_circle(entity.size)
+            for agent in self.world.agents:
+                geom = rendering.make_circle(agent.size)
+                if agent.armed:
+                    # render arms
+                    radius0 = agent.size * 1.3
+                    radius1 = agent.size * 1.5
+                    aim = rendering.make_polygon([
+                        (np.cos(-.1)*radius1, np.sin(-.1)*radius0),
+                        (radius0, 0),
+                        (np.cos(.1)*radius1, np.sin(.1)*radius0)
+                    ])
+                    geom = rendering.Compound([geom, aim])
                 xform = rendering.Transform()
                 if type(entity) == Agent:
                     geom.set_color(*entity.color, alpha=0.5)
@@ -189,8 +215,17 @@ class MultiAgentEnv(gym.Env):
             pos = np.zeros(self.world.dim_p)
             self.viewers[i].set_bounds(pos[0]-cam_range,pos[0]+cam_range,pos[1]-cam_range,pos[1]+cam_range)
             # update geometry positions
-            for e, entity in enumerate(self.world.entities):
-                self.render_geoms_xform[e].set_translation(*entity.state.p_pos)
+            for a, agent in enumerate(self.world.agents):
+                xform = self.render_geoms_xform[a]
+                xform.set_translation(*agent.state.p_pos)
+                if agent.state.aim_heading is not None:
+                    xform.set_rotation(agent.state.aim_heading)
+
+            for projectile in self.world.projectiles:
+                geom = rendering.Line(start=tuple(projectile[:2]), end=tuple(projectile[2:]))
+                for viewer in self.viewers:
+                    viewer.add_onetime(geom)
+
             # render to display or array
             results.append(self.viewers[i].render(return_rgb_array = mode=='rgb_array'))
 
