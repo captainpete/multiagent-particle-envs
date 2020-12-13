@@ -63,12 +63,12 @@ class MultiAgentEnv(gym.Env):
         obs_n = []
         reward_n = []
         done_n = []
-        info_n = {'n': []}
         # set action for each agent
         for i, agent in enumerate(self.agents):
             self._set_action(action_n[i], agent, self.action_space[i])
         # advance world state
         self.world.step()
+        info_n = self.world.info
         # record observation for each agent
         for agent in self.agents:
             obs_n.append(self._get_obs(agent))

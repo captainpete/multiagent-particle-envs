@@ -108,6 +108,8 @@ class World(object):
         self.contact_margin = 1e-3
         # projectile paths
         self.projectiles = None
+        # info
+        self.info = None
 
     # return all entities in the world
     @property
@@ -126,6 +128,21 @@ class World(object):
 
     # update state of the world
     def step(self):
+        n = len(self.agents)
+        for i, agent in enumerate(self.agents): agent.index = i
+        self.info = {
+            'dist': np.zeros((n, n)),
+            'speed': np.zeros((n,)),
+            'health': np.zeros((n,)),
+            'fire': np.zeros((n,)),
+            'bite': np.zeros((n, n)),
+            'hit': np.zeros((n, n))
+        }
+        # record distance
+        for agent in self.agents:
+            for other in self.agents:
+                _, self.info['dist'][agent.index, other.index] = self.distance(agent, other)
+                
         # set actions for scripted agents 
         for agent in self.scripted_agents:
             agent.action = agent.action_callback(agent, self)
@@ -141,6 +158,10 @@ class World(object):
         self.projectiles = np.zeros((0, 4))
         for agent in self.agents:
             self.update_agent_state(agent)
+
+        # record health
+        for agent in self.agents:
+            self.info['health'][agent.index] = agent.state.health
 
     # gather agent action forces
     def apply_action_force(self, p_force):
@@ -194,6 +215,9 @@ class World(object):
                                                                   np.square(entity.state.p_vel[1])) * max_speed
             entity.state.p_pos += entity.state.p_vel * self.dt
 
+            # record speed
+            self.info['speed'][entity.index] = np.sqrt(np.sum(np.square(entity.state.p_vel)))
+
     def update_agent_state(self, agent):
 
         # compute ballistics
@@ -214,6 +238,9 @@ class World(object):
                 act_prob = 1/(1+np.exp(agent.arms_act_sens * (agent.arms_act_pres - a_force)))
                 activated = np.random.binomial(1, act_prob * agent.state.health)
                 if activated:
+                    # record fire
+                    self.info['fire'][agent.index] += 1
+
                     agent.state.reloading = 1.0
 
                     # create rays representing projectiles
@@ -245,6 +272,8 @@ class World(object):
                     # deduct health from agents that were hit
                     for other in others[closest_in_range]:
                         other.state.health = np.clip(other.state.health - agent.arms_pallet_damage, 0.0, 1.0)
+                        # record hit
+                        self.info['hit'][agent.index, other.index] += 1
 
                     # ray segments for rendering
                     new_projectiles = np.concatenate((
@@ -268,9 +297,11 @@ class World(object):
                 # increase biting count
                 agent_a.state.biting += 1
                 agent_b.state.biting += 1
-                human = agent_a if agent_a.team == 0 else agent_b
+                human, zombie = (agent_a, agent_b) if agent_a.team == 0 else (agent_b, agent_a)
                 human.state.health *= human.health_decay
-                # DISCUSS: transfer some human mass and size to zombie...?
+
+                # record bite
+                self.info['bite'][zombie.index][human.index] += 1
 
     def distance(self, agent, other):
         delta_pos = agent.state.p_pos - other.state.p_pos

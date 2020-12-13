@@ -95,6 +95,24 @@ def train(arglist):
         train_step = 0
         t_start = time.time()
 
+        # stats buffers
+        step_info = {
+            'dist':     np.zeros((arglist.max_episode_len, n, n)),
+            'speed':    np.zeros((arglist.max_episode_len, n,)),
+            'health':   np.zeros((arglist.max_episode_len, n,)),
+            'fire':     np.zeros((arglist.max_episode_len, n,)),
+            'bite':     np.zeros((arglist.max_episode_len, n, n)),
+            'hit':      np.zeros((arglist.max_episode_len, n, n))
+        }
+        episode_info = {
+            'dist':     np.zeros((arglist.num_episodes, n, n)),
+            'speed':    np.zeros((arglist.num_episodes, n,)),
+            'health':   np.zeros((arglist.num_episodes, n,)),
+            'fire':     np.zeros((arglist.num_episodes, n,)),
+            'bite':     np.zeros((arglist.num_episodes, n, n)),
+            'hit':      np.zeros((arglist.num_episodes, n, n))
+        }
+
         print('Starting iterations...')
         while True:
             # get action
@@ -102,6 +120,11 @@ def train(arglist):
 
             # environment step
             new_obs_n, rew_n, done_n, info_n = env.step(action_n)
+
+            # update episode step stats
+            for key in step_info:
+                step_info[key][episode_step] = info_n[key]
+
             episode_step += 1
             done = all(done_n)
             terminal = (episode_step >= arglist.max_episode_len)
@@ -118,6 +141,17 @@ def train(arglist):
                 obs_n = env.reset()
                 episode_step = 0
                 rewards = np.concatenate((rewards, np.zeros((1, n))))
+
+                # aggregate step_info
+                episode_info['dist'][episode_number] = np.mean(step_info['dist'], axis=0)
+                episode_info['speed'][episode_number] = np.mean(step_info['speed'], axis=0)
+                episode_info['health'][episode_number] = np.min(step_info['health'], axis=0)
+                episode_info['fire'][episode_number] = np.sum(step_info['fire'], axis=0)
+                episode_info['bite'][episode_number] = np.sum(step_info['bite'], axis=0)
+                episode_info['hit'][episode_number] = np.sum(step_info['hit'], axis=0)
+
+                # reset step_info
+                for key in step_info: step_info[key][:] = 0.
 
             # increment global step counter
             train_step += 1
@@ -164,6 +198,11 @@ def train(arglist):
                     rew_file_name = arglist.plots_dir + arglist.exp_name + '_rewards.pkl'
                     with open(rew_file_name, 'wb') as fp:
                         pickle.dump(rewards, fp)
+                    # save stats
+                    for key in episode_info:
+                        stats_file_name = "{}{}_{}.pkl".format(arglist.plots_dir, arglist.exp_name, key)
+                        with open(stats_file_name, 'wb') as fp:
+                            pickle.dump(episode_info[key], fp)
                     print("done")
 
                 episode_number += 1
