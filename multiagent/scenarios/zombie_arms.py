@@ -42,11 +42,11 @@ class Scenario(BaseScenario):
 
             # weapons
             agent.armed = True
-            agent.arms_reload_time = 1.0
-            agent.arms_pallet_count = 10
-            agent.arms_pallet_damage = 0.1
-            agent.arms_pallet_range = 2
-            agent.arms_pallet_spread = 5 /360.0*2*np.pi
+            agent.arms_reload_time = 0.2
+            agent.arms_pallet_count = 2
+            agent.arms_pallet_damage = 0.2
+            agent.arms_pallet_range = 3
+            agent.arms_pallet_spread = 3 /360.0*2*np.pi
 
             agents.append(agent)
         # add zombies' team
@@ -116,15 +116,16 @@ class Scenario(BaseScenario):
         #   vel         2
         #   ang         1
         #   health      1
+        #   reloading   1
         #
         # others: (sorted by team then distance, must be constant size within team)
         #
         #   rel_pos     2
         #   rel_vel     2
         #   rel_ang     1
-        #   reloading   1
 
-        s = 2+2+1 + (2+2+1+1)*len(other_agents)
+        s = 2+2+1 + (2+2+1)*len(other_agents)
+        if agent.armed: s += 1
         obs = np.zeros((s,))
         i = 0
 
@@ -132,6 +133,8 @@ class Scenario(BaseScenario):
         obs[i:i+2] = agent.state.p_pos;     i += 2
         obs[i:i+2] = agent.state.p_vel;     i += 2
         obs[i:i+1] = agent.state.health;    i += 1
+        if agent.armed:
+            obs[i:i+1] = agent.state.reloading; i += 1
 
         abs_ang = agent.state.aim_heading if agent.armed else 0.
         for other in other_agents:
@@ -143,9 +146,6 @@ class Scenario(BaseScenario):
             # relative angle to current heading (not relative heading)
             rel_ang = np.arctan2(rel_pos[1], rel_pos[0]) - abs_ang
             obs[i:i+1] = (rel_ang % 2*np.pi) - np.pi; i += 1
-            # reloading
-            rel = other.state.reloading if other.armed else 0.
-            obs[i:i+1] = rel; i += 1
 
         assert i == s
 
