@@ -17,6 +17,7 @@
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \renewcommand{\UrlFont}{\ttfamily\small}
 
 % This is not strictly necessary, and may be commented out,
@@ -85,7 +86,7 @@ We present methods and results for each scenario, and conclude with a discussion
 
 \subsection{Overview}
 
-In (\ref{sec:background}) we review Markov Decision Processes (MDPs), the Actor-Critic algorithm, MADDPG, and agent design.
+In (\ref{sec:background}) we review theory, RL algorithms, and aspects of agent design.
 In (\ref{sec:game}) we detail the basic simulation environment.
 In (\ref{sec:baseline}) we detail the experimental setup and initial results.
 In (\ref{sec:anon}) we investigate partial observability, and how compression of the observation function can speed policy discovery.
@@ -107,7 +108,7 @@ RL algorithms attempt to solve the MDP in order to maximize return (reward over 
 This can be done by learning a policy (a function that maps from state to action).
 A policy can often be learned directly, or by learning a value function (a mapping from states and actions to expected returns) from which a policy can be extracted.
 
-\subsection{Actor-Critic methods}
+\subsection{DDPG}
 
 Q-Learning is a popular RL method that makes use of an action-value function $Q^\pi(s, a)$ corresponding to a policy $\pi$ (where $s$ is the state, and $a$ the action).
 Deep Q-Learning learns (DQN) learns the action-value function $Q^*$ corresponding to the optimal policy by minimizing the loss function
@@ -119,20 +120,62 @@ by repeatedly adjusting the parameters $\theta$ of the target action-value funct
 The Q-function can be expressed as $Q^{\pi}(s,a)=\mathbb{E}[R|s,a]$, where $R_t$ is the discounted sum of future rewards at time $t$, given by: $R_t=\sum_{k=t}^\infty\gamma(k-t)r_k$.
 To reduce the variance of estimates for the above expectation, Q-Learning often makes use of an Experience Replay (ER) buffer that stores the experiences of many state transitions.
 
-In Actor-Critic (AC), both a policy (the actor) and an action-value function (the critic) are learned.
-The Critic is used to estimate the policy gradient (the direction of changes to the policy parameters that cause actions that generate higher expected returns),
-which is then used to update the policy function parameters at each training step.
+Policy-gradient (PG) methods learn a policy $\pi_\theta$, parameterized by $\theta$,
+by sampling the gradient of a performance measure $J(\theta)$ with respect to $\theta$.
+
+\begin{equation}
+  \nabla_\theta J(\theta)=\mathbb{E}_\pi\left[Q^\pi(s, a) \frac{\nabla_\theta\pi_\theta(a|s)}{\pi_\theta(a|s)}\right]
+\end{equation}
+
+REINFORCE, a simple PG algorithm, uses all the steps in an episode to find $Q^\pi(s,a)=\mathbb{E}_\pi[G|s,a]$, where $G$ is the total reward of an episode.
+Because reward functions sometimes give high values for some states, this method can give high variance gradient estimates.
+This can be remedied by using a baseline $b(s)$:
+
+\begin{equation}
+  \nabla_\theta J(\theta)=\mathbb{E}_\pi\left[(G-b(s)) \frac{\nabla_\theta\pi_\theta(a|s)}{\pi_\theta(a|s)}\right]
+\end{equation}
+
+Actor-Critic (AC) improves on REINFORCE by learning a state-value function with baseline (critic), and an action-value function (actor) concurrently.
+AC also has the advantage that the parameters for both functions are updated at every step in an episode.
+The policy gradient at each time step $t$ can be expressed:
+
+\begin{equation}
+  \nabla_\theta J(\theta)=\mathbb{E}_\pi\left[\delta_t \frac{\nabla_\theta\pi_\theta(a|s)}{\pi_\theta(a|s)}\right]
+\end{equation}
+\begin{equation}
+  \delta_t = r_{t+1}+\gamma \hat{v}(s_{t+1}, w)-\hat{v}(s_t,w)
+\end{equation}
+
+where $\gamma$ is a discount parameter, and $\hat{v}(w)$ the state-value function with parameters $w$.
+
+Deterministic Policy Gradient (DPG) methods extend policy gradient to deterministic policies.
+A deterministic policy ($\mu_\theta$) maps a state to an action,
+whereas a stochastic policy ($\pi_\theta$) provides a conditional probability of an action in a given state.
+
+\begin{equation}
+  \nabla_\theta J(\theta)=\mathbb{E}_s\left[\nabla_\theta \mu_\theta(a|s) \nabla_a Q^\mu(s,a)|_{a=\mu_\theta(s)}\right]
+\end{equation}
+
+DPG methods are often used in continuous control tasks
+(taking the gradient of $Q^\mu$ with respect to $a$ requires the action space to be continuous).
+
+Deep Deterministic Policy Gradient (DDPG) combines ideas from DPG and DQN.
+In DDPG the actor and critic are approximated with neural networks.
+DDPG uses target networks for both actor and critic, and makes use of an experience replay buffer to store agent trajectories.
 
 \subsection{MADDPG}
 
-The Markov Decision Process (MDP) framework regards other agents as part of the environment from the perspective of a single agent;
-so if other agents in the environment are learning and modifying their behaviour then the environment contains shifting dynamics (the environmental data-generating process is considered non-stationary).
-Deep Deterministic Policy Gradient (DDPG) is an actor-critic algorithm used in continuous control tasks.
+The Markov Decision Process (MDP) framework regards other agents as part of the environment from the perspective of a single agent.
+From the perspective of an agent, the influence on rewards from other agents in the environment can make it harder to learn a policy;
+this is especially so when the environment contains other agents that are also learning policies,
+because elements of the `environment' change while the agent is trying to learn them.
+
 It was shown in () that the chance of sampling a policy-gradient update in an improved direction decreases exponentially with the number of agents being trained in the shared environemnt.
 
-MADDPG is a modified actor-critic method designed to address the stabilitiy issues due to the simultaneous learning of policies in the multi-agent setting.
-A key component of MADDPG is the use of a shared critic that has access to the policies of all other agents during training.
-In MADDPG, agents can have different state and action spaces, and be goverened by different reward functions.
+MADDPG addresses this stabilitiy issue by using centralized critics.
+In MADDPG, the critic $Q^\pi_i(x, a_1, a_2, ..., a_N)$ for agent $i$ has access to the actions of all $N$ agents, and some state information $x$.
+The critic is often only used in training, so it's possible to deploy MADDPG actors in continuous control tasks where knowledge of other actors' actions are not available.
+Agents can have different state and action spaces, and be goverened by different reward functions.
 We use the MADDPG algorithm for all agents within our scenarios.
 
 \subsection{Agent design}
