@@ -158,6 +158,7 @@ def train(arglist):
 
             # for displaying policies while training
             if arglist.display and (episode_number % arglist.display_rate == 0) and episode_number > 0 and er_fill_frac_min >= 1.0:
+            #if arglist.display and (episode_number % 5 == 0) and episode_number > 0:
                 time.sleep(0.1)
                 env.render()
 
