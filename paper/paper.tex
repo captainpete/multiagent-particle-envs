@@ -184,9 +184,9 @@ When implementing an RL system there are many important design considerations:
 
 \begin{itemize}
   \item \emph{Algorithm}: Different algorithms are suited to different tasks. A selected algorithm will need to perform well with the selected action-space, state-space, reward function and environmental dynamics.
-  \item \emph{State-space}: The state-space describes how environmental observations are presented to the algorithm. Constructing the correct, relevant abstractions inform how the agent `sees the world'.
-  \item \emph{Action-space}: The action-space describes actions available to the agent. The level of abstraction here should be fine enough for accurate control, but general enough for the policy to be learnable.
-  \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Most algorithms assume the reward signal contains no noise, and require point-estimates rather than a distribution, so crafting a consistent reward function that reflects the precise desires of the designer can be challenging.
+  \item \emph{State-space}: The state-space describes how environmental observations are presented to the algorithm. Constructing the correct, relevant abstractions allow an agent to better learn the environment.
+  \item \emph{Action-space}: The action-space describes actions available to the agent. The level of abstraction here should be fine enough for precise control, but general enough for a policy to be learnable.
+  \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Most algorithms assume the reward signal contains no noise, and require point-estimates rather than a distribution. Crafting a consistent reward function that reflects the exact desires of the designer can be challenging. Some algorithms can infer the a reward function from feedback, but most will try to maximize explicit reward.
 \end{itemize}
 
 We examine the imapct of design choices for state-space, action-space, and reward function in our scenarios.
@@ -198,54 +198,100 @@ We examine the imapct of design choices for state-space, action-space, and rewar
 \label{sec:game}
 
 The Zombie-Survival scenarios cover a set of games simulating survivors and zombies in a zombie-apocalypse scenario.
-Survivors attempt to distance themselves from zombies and are penalized (-10 reward) for each contact.
-Zombies attempt contact with survivors and are rewarded (+10 reward) for each contact.
-Zombies have the advantage of numbers (there are 5 zombies and 2 survivors), whereas survivors have the advantage of faster accleration and a higher maximum speed.
-All reward functions are independent, there are no explicitly shared rewards for outcomes.
+When a zombie is in physical contact with a survivor this results in a `bite' between zombie and survivor.
+Zombies attempt to bite survivors and are rewarded for each step they are in contact.
+Survivors attempt to distance themselves from zombies and are penalized every time they are bitten.
+Survivors can suffer a bite from multiple zombies in the same time step.
 
+Zombies have the advantage of numbers (there are 5 zombies and 2 survivors), whereas survivors have the advantage of faster accleration and a higher maximum speed.
+All reward functions are independent, agents do not share reward.
 The game offers a scenario with asymmetric power dynamics between competitive teams, and allows the emergence of compeitive or cooperative behavior within a team.
+
+\begin{table}
+\centering
+\begin{tabular}{lrr}
+\hline \textbf{Setting} & \textbf{Survivors} & \textbf{Zombies} \\ \hline
+  world size ($m$) & 2x2 & 2x2 \\
+  timestep ($s$) & 0.1 & 0.1 \\
+  episode length ($s$) & 10 & 10 \\
+  num. agents & 2 & \textbf{5} \\
+  agent radius ($m$) & 0.05 & 0.05 \\
+  agent mass ($kg$) & 1.0 & 1.0 \\
+  acceleration ($ms^-2$) & \textbf{4.0} & 3.0 \\
+  max. speed ($ms^-1$) & \textbf{1.3} & 1.0 \\
+  bite reward & -10 & +10 \\
+\hline
+\end{tabular}
+\caption{\label{game-settings} Scenario settings. }
+\end{table}
 
 \subsection{Scenario: Baseline}
 \label{sec:baseline}
 
 We modify the 'Predator-prey' particle environment from (), which implements a multi-agent environment with a continuous action-space, a fully-observable state-space, and basic 2D physics.
-Each agent is represented as a circle that has mass, position, velocity, velocity dampening, maximum acceleration, and maximum speed. Actions are 4D discrete (softmax probabilities) which are mapped to 2D continuous force vectors to control movement. The predator-prey environment uses reward shaping to discourage agents from moving out of bounds.
-We replace the additional term in the reward function and implement fixed boundary walls.
+Each agent is represented as a circle that has mass, position, velocity, velocity dampening, maximum acceleration, and maximum speed.
+%Actions are 4D discrete (softmax probabilities) which are mapped to 2D continuous force vectors to control movement.
+The predator-prey environment uses reward shaping to discourage agents from moving out of bounds.
+We remove this additional term in the reward function and implement fixed boundary walls.
+We implement the biting rules, modify the agent count and adjust the agents' physical capabilities (see Table \ref{game-settings}).
 We run several training jobs for 10,000 steps each to capture the emergence of different policies.
+
+\subsection{Results: Baseline}
 
 \subsection{Scenario: Anonymity}
 \label{sec:anon}
 
+In the \emph{anonymity} scenario we modify the \emph{baseline} scenario to introduce partial observability.
+We re-order agents' state vectors each step so that agents within teams are ordered by distance to the observing agent.
+To a survivor, a zombie now appears the same as any other zombie, and does not have identity by virtue of index in the state vector.
+We expect both survivors and zombies to learn more general policies with faster convergence than the baseline.
+
+\subsection{Results: Anonymity}
+
 \subsection{Scenario: Health}
 \label{sec:health}
 
+In the \emph{health} scenario we modify the \emph{anonymity} scenario to introduce a health mechanism for survivors.
+Survivors start each episode with 100\% health, which for survivors is discounted (by 0.99) every bite.
+An agent's health level is added to the private observation space for the agent.
+Reward remains the same for bites regardless of health levels,
+however maximum speed at each step is limited to the fraction of health remaining.
+
+If a survivor is bitten too often, they become slower than the zombies and risk being overrun, leading to a large amount of bites for the remainder of the episode.
+This scenario does not alter the reward function, but increases the variance and magnitude of state-value estimates for both zombies and survivors.
+Additionally, this scenario shifts the balance of power heavily toward the zombies.
+We expect to see survivor policies emerge that are more risk-averse, and to see zombies elect to chase slower-moving survivors.
+
+\subsection{Results: Health}
+
 \subsection{Scenario: Armed}
 \label{sec:arms}
+
+In the \emph{armed} scenario we modify the \emph{health} scenario by arming the survivors with pistols.
+Each armed agent has a pistol that fires 2 shots when activated.
+On firing, two rays are cast with a small random spread ($\angle p \sim \mathcal{N}(\angle aim, 2^\circ)$) for a range (2m) that covers most of the area.
+When a ray first intersects with another agent it is counted as a `hit'.
+An agent experiencing a hit has their health level reduced (by 0.2).
+Armed agents have a reload time (1 step).
+Both zombies and survivors can be rendered immobile through reduced health by being hit too often.
+
+We add a normalized current heading and relative heading of locations of other agents to an armed agent's state space, as well as a normalized time remaining until reloaded.
+Reloading is automatic and does not require an action.
+The continuous Aiming action (left and right) modifies angular velocity of aim directly up to a maximum speed of 1 revolution per second.
+The firing mechanic is implemented as a `tirgger pressure' which determines the probability of a loaded pistol firing in a given timestep.
+Firing probability is implemented as the sigmoid function $p(fire) = \frac{1}{1+e^{20(x-0.5)}}$, where $x$ is the pressure on the trigger.
+
+We expect introducing the arms mechanic will move the balance of power back toward the survivors.
+We're not sure if the social dilemma presented will cause the survivors to fire on one another more often than the zombies,
+but make no adjustment to the reward function to discourage it.
+
+\subsection{Results: Armed}
 
 \section{Discussion}
 \label{sec:discussion}
 
 FROM HERE FOLLOWS TEMPLATE STUFF
 
-\begin{table}
-\centering
-\begin{tabular}{lrl}
-\hline \textbf{Type of Text} & \textbf{Font Size} & \textbf{Style} \\ \hline
-paper title & 15 pt & bold \\
-author names & 12 pt & bold \\
-author affiliation & 12 pt & \\
-the word ``Abstract'' & 12 pt & bold \\
-section titles & 12 pt & bold \\
-subsection titles & 11 pt & bold \\
-document text & 11 pt  &\\
-captions & 10 pt & \\
-abstract text & 10 pt & \\
-bibliography & 10 pt & \\
-footnotes & 9 pt & \\
-\hline
-\end{tabular}
-\caption{\label{font-table} Font guide. }
-\end{table}
 
 \paragraph{\LaTeX-specific details:}
 To use Times Roman in \LaTeX2e{}, put the following in the preamble:
