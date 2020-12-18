@@ -231,7 +231,6 @@ The game offers a scenario with asymmetric power dynamics between competitive te
 
 We modify the 'Predator-prey' particle environment from (), which implements a multi-agent environment with a continuous action-space, a fully-observable state-space, and basic 2D physics.
 Each agent is represented as a circle that has mass, position, velocity, velocity dampening, maximum acceleration, and maximum speed.
-%Actions are 4D discrete (softmax probabilities) which are mapped to 2D continuous force vectors to control movement.
 The predator-prey environment uses reward shaping to discourage agents from moving out of bounds.
 We remove this additional term in the reward function and implement fixed boundary walls.
 We implement the biting rules, modify the agent count and adjust the agents' physical capabilities (see Table \ref{game-settings}).
@@ -252,6 +251,13 @@ The reward trace for $r_5$ shows the zombie agent experienced a spike in reward 
 that occurred only once in 10 training runs.
 Most agents show a similar pattern for at least one run.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/baseline_speed.png}
+  \caption{Reward and speed (moving averages over 200 episodes) for a single training run in baseline scenario. Survivors in blue and orange.}
+  \label{fig:baseline_speed}
+\end{figure}
+
 On further investigation we discovered the reason for this; a zombie usually fixates on a target, but zombies learn policies at different rates.
 Figure \ref{fig:baseline_speed} shows speed and reward over time for a single training run.
 We see that one survivor is not pursued as often to start with, but then recieves increasing attention from zombies learning to persure it.
@@ -261,13 +267,6 @@ We observed similar patterns in other runs.
 In the baseline state-space, every agent is unique, so all agents have to learn their expected reward relating to each other.
 From an agent's perspective, when considering reward the most important thing about an agent is whether they are a survivor or a zombie, not necessarily which survivor or zombie.
 We'd prefer agents learn general policies that consider other agents exchangeable within a team.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.5\textwidth]{figures/baseline_speed.png}
-  \caption{Moving averages for reward and speed in baseline scenario. Survivors in blue and orange.}
-  \label{fig:baseline_speed}
-\end{figure}
 
 \subsection{Scenario: Anonymity}
 \label{sec:anon}
@@ -282,23 +281,79 @@ We also expect to see zombies chasing which ever survivor is easiest to chase, r
 
 \subsection{Results: Anonymity}
 
+We observed faster convergence to a stable policy (as judged by average speed and reward) when compared to baseline (see Figure \ref{fig:anon_base_compare}).
+We also observed more uniform persuit and biting (see Figure \ref{fig:anon_base_dist_bite}).
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/anon_base_compare.png}
+  \caption{
+    Speed and reward evolution for baseline and anonymous scenarios.
+    Results taken as moving averages over 200 episodes prior to aggregation.
+  }
+  \label{fig:anon_base_compare}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/anon_base_dist_bite.png}
+  \caption{
+    Distance and bite count comparison between baseline and anonymous scenarios.
+    Plot colors indicate average distance and average bite count per episode average across the last 5000 episodes of a training run.
+    Both axes are agent indexes, and color indicates relative value with white being the highest value.
+  }
+  \label{fig:anon_base_dist_bite}
+\end{figure}
 
 \subsection{Scenario: Health}
 \label{sec:health}
 
 In the \emph{health} scenario we modify the \emph{anonymity} scenario to introduce a health mechanism for survivors.
-Survivors start each episode with 100\% health, which for survivors is discounted (by 0.99) every bite.
+Survivors start each episode with 100\% health, which for survivors is discounted ($\gamma=0.99$) every bite.
 An agent's health level is added to the private observation space for the agent.
 Reward remains the same for bites regardless of health levels,
 however maximum speed at each step is limited to the fraction of health remaining.
-
 If a survivor is bitten too often, they become slower than the zombies and risk being overrun, leading to a large amount of bites for the remainder of the episode.
+
 This scenario does not alter the reward function, but increases the variance and magnitude of state-value estimates for both zombies and survivors.
 Additionally, this scenario shifts the balance of power heavily toward the zombies.
 We expect to see survivor policies emerge that are more risk-averse, and to see zombies elect to chase slower-moving survivors.
 
 \subsection{Results: Health}
+
+Compared to the \emph{anonymous} scenario, agents in the \emph{health} scenario were slower on average (see Figure \ref{fig:anon_health_compare}, plot 1).
+It's interesting to note this slowdown occurred before the reward ramp-up due to zombies successfully immobilizing survivors.
+In part the slower speeds can be explained through partial health reductions, but rendering the simulation frames provided another explanation.
+In previous scenarios, survivors would run into walls at maximum speed to bounce back through the persuring group of zombies without losing speed.
+The bouncing strategy sacrifices minimal reward and allows a survivor to keep their distance ahead of the pursuing zombies after the manouver.
+In the \emph{health} scenario, this strategy becomes unsustainable, as every contact with a zombie (during the bounce) reduces the survivors maximum speed
+leading to a very bad outcome after only a few bounces.
+
+With health to consider, survivors opted for more impressive fake-and-dodge manouvers to avoid contact altogether.
+Often this would involve pausing to allow zombies to move closer to their target, then making use of the survivors' higher acceleration to escape at an angle orthagonal to the zombie group's velocity.
+
+However, clever dodging only worked in some instances.
+We measured a drastic increase in average zombie reward (see Figure \ref{fig:anon_health_compare}, plot 2) due to zombies learning to immobilize and bite survivors.
+In most cases, one survivor who would succumb to the zombies first, attracting the attention of most of the zombies and allowing the remaining survivor to stay out of harm's way.
+
+We found it difficult to predict at the beginning of an episode which survivor would ultimately attract the zombies.
+In watching many episodes we found a survivor having many zombies in tow would move directly toward the other survivor (who was often be keeping their distance in a corner).
+The first survivor would have higher velocity, and use it to risk a wall-bounce manouver near the second slower-moving one.
+The first survivor in this instance would retain the speed required to escape while the zombies switched their persuit to overrun the second survivor.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/anon_health_compare.png}
+  \caption{
+    Comparison between anonymous and health scenario policy evolution.
+    Results taken as moving averages over 200 episodes prior to aggregation.
+    Plot 1: average speed of all agents.
+    Plot 2: average reward of zombies.
+    Plot 3: lowest health of all survivors at the conclusion of an episode.
+    Plot 4: the difference between survivor health at the conclusion of an episode.
+  }
+  \label{fig:anon_health_compare}
+\end{figure}
 
 \subsection{Scenario: Armed}
 \label{sec:arms}
@@ -308,7 +363,7 @@ Each armed agent has a pistol that fires 2 shots when activated.
 On firing, two rays are cast with a small random spread ($\angle p \sim \mathcal{N}(\angle aim, 2^\circ)$) for a range (2m) that covers most of the area.
 When a ray first intersects with another agent it is counted as a `hit'.
 An agent experiencing a hit has their health level reduced (by 0.2).
-Armed agents have a reload time (1 step).
+Armed agents require time to reload (1 step).
 Both zombies and survivors can be rendered immobile through reduced health by being hit too often.
 
 We add a normalized current heading and relative heading of locations of other agents to an armed agent's state space, as well as a normalized time remaining until reloaded.

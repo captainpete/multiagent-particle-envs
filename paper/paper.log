@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  18 DEC 2020 16:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  18 DEC 2020 21:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -472,32 +472,67 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 <figures/baseline_reward.png, id=56, 289.26068pt x 428.92245pt>
 File: figures/baseline_reward.png Graphic file (type png)
 <use figures/baseline_reward.png>
-Package pdftex.def Info: figures/baseline_reward.png  used on input line 244.
+Package pdftex.def Info: figures/baseline_reward.png  used on input line 243.
 (pdftex.def)             Requested size: 227.62204pt x 337.5295pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 244--245
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 243--244
  [][] 
  []
 
 [3]
-<figures/baseline_speed.png, id=67, 289.26068pt x 372.37117pt>
+<figures/baseline_speed.png, id=66, 289.26068pt x 263.24347pt>
 File: figures/baseline_speed.png Graphic file (type png)
 <use figures/baseline_speed.png>
-Package pdftex.def Info: figures/baseline_speed.png  used on input line 267.
-(pdftex.def)             Requested size: 227.62204pt x 293.02792pt.
+Package pdftex.def Info: figures/baseline_speed.png  used on input line 256.
+(pdftex.def)             Requested size: 227.62204pt x 207.15268pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 267--268
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 256--257
+ [][] 
+ []
+
+<figures/anon_base_compare.png, id=70, 284.20178pt x 208.67963pt>
+File: figures/anon_base_compare.png Graphic file (type png)
+<use figures/anon_base_compare.png>
+Package pdftex.def Info: figures/anon_base_compare.png  used on input line 289.
+
+(pdftex.def)             Requested size: 227.62204pt x 167.14134pt.
+
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 289--293
+ [][] 
+ []
+
+<figures/anon_base_dist_bite.png, id=71, 247.70543pt x 246.4407pt>
+File: figures/anon_base_dist_bite.png Graphic file (type png)
+<use figures/anon_base_dist_bite.png>
+Package pdftex.def Info: figures/anon_base_dist_bite.png  used on input line 29
+9.
+(pdftex.def)             Requested size: 227.62204pt x 226.4612pt.
+
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 299--304
  [][] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 2277) has occurred while \output is active []
 
- [4 <./figures/baseline_reward.png> <./figures/baseline_speed.png>] [5]
+ [4 <./figures/baseline_reward.png> <./figures/baseline_speed.png>] [5 <./figur
+es/anon_base_compare.png> <./figures/anon_base_dist_bite.png>]
+<figures/anon_health_compare.png, id=94, 285.10515pt x 317.80733pt>
+File: figures/anon_health_compare.png Graphic file (type png)
+<use figures/anon_health_compare.png>
+Package pdftex.def Info: figures/anon_health_compare.png  used on input line 34
+6.
+(pdftex.def)             Requested size: 227.62204pt x 253.73701pt.
 
-LaTeX Warning: Reference `font-table' on page 6 undefined on input line 414.
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 346--354
+ [][] 
+ []
 
-[6] [7] (./paper.bbl
+[6 <./figures/anon_health_compare.png>]
+
+LaTeX Warning: Reference `font-table' on page 7 undefined on input line 469.
+
+[7] [8] (./paper.bbl [9]
 Underfull \hbox (badness 1102) in paragraph at lines 65--70
 []\OT1/ptm/m/n/10 Mohammad Sadegh Ra-sooli and Joel R. Tetreault.
  []
@@ -508,32 +543,30 @@ Underfull \hbox (badness 1092) in paragraph at lines 65--70
 -i-tory\OT1/ptm/m/n/10 ,
  []
 
-[8])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 627.
- [9
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 627.
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 682.
+ [10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 682.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 627.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 627.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 682.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 682.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 627.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 682.
  )
 (\end occurred when \iffalse on line 352 was incomplete) 
 Here is how much of TeX's memory you used:
- 10240 strings out of 480608
- 158175 string characters out of 5903629
- 462374 words of memory out of 5000000
- 25684 multiletter control sequences out of 15000+600000
- 570184 words of font info for 201 fonts, out of 8000000 for 9000
+ 10266 strings out of 480608
+ 158895 string characters out of 5903629
+ 463661 words of memory out of 5000000
+ 25702 multiletter control sequences out of 15000+600000
+ 570300 words of font info for 202 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 49i,12n,46p,905b,465s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 49i,12n,46p,905b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/202
 0/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fon
@@ -551,10 +584,10 @@ c/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/u
 rw/courier/ucrr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times
 /utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmr8a.pf
 b></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (9 pages, 785353 bytes).
+Output written on paper.pdf (10 pages, 1080069 bytes).
 PDF statistics:
- 282 PDF objects out of 1000 (max. 8388607)
- 248 compressed objects within 3 object streams
- 82 named destinations out of 1000 (max. 500000)
- 24587 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 259 compressed objects within 3 object streams
+ 86 named destinations out of 1000 (max. 500000)
+ 24602 words of extra memory for PDF output out of 24883 (max. 10000000)
 
