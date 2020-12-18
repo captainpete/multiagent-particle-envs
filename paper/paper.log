@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  18 DEC 2020 21:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  19 DEC 2020 01:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -336,29 +336,29 @@ File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 (./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 4
-9.
+7.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 \AtBeginShipoutBox=\box50
-Package hyperref Info: Link coloring ON on input line 49.
+Package hyperref Info: Link coloring ON on input line 47.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -372,9 +372,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count275
 )
-LaTeX Info: Redefining \ref on input line 49.
-LaTeX Info: Redefining \pageref on input line 49.
-LaTeX Info: Redefining \nameref on input line 49.
+LaTeX Info: Redefining \ref on input line 47.
+LaTeX Info: Redefining \pageref on input line 47.
+LaTeX Info: Redefining \nameref on input line 47.
  (./paper.out) (./paper.out)
 \@outlinefile=\write3
 \openout3 = `paper.out'.
@@ -405,14 +405,14 @@ e
 ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 49.
+LaTeX Info: Redefining \microtypecontext on input line 47.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 49.
+LaTeX Info: Redefining \showhyphens on input line 47.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -424,13 +424,13 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 50
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 48
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 48.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -439,7 +439,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 48.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -448,8 +448,8 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
-0.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
+8.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -462,132 +462,162 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 
 
-] [2]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-87.
+]
+Underfull \hbox (badness 10000) in paragraph at lines 111--113
+ []\OT1/ptm/b/n/10.95 Deep Q-Learning Net-works: \OT1/ptm/m/n/10.95 (+20) Q-Lea
+rning
+ []
 
-(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--131
+ []\OT1/ptm/b/n/10.95 REINFORCE \OT1/ptm/m/n/10.95 (+20) ([][]Williams[][], [][
+]1992[][]), a sim-ple
+ []
+
+[2]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
+84.
+ (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-<figures/baseline_reward.png, id=56, 289.26068pt x 428.92245pt>
+) [3]
+<figures/baseline_reward.png, id=109, 289.26068pt x 428.92245pt>
 File: figures/baseline_reward.png Graphic file (type png)
 <use figures/baseline_reward.png>
-Package pdftex.def Info: figures/baseline_reward.png  used on input line 243.
+Package pdftex.def Info: figures/baseline_reward.png  used on input line 240.
 (pdftex.def)             Requested size: 227.62204pt x 337.5295pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 243--244
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 240--241
  [][] 
  []
 
-[3]
-<figures/baseline_speed.png, id=66, 289.26068pt x 263.24347pt>
+<figures/baseline_speed.png, id=112, 289.26068pt x 263.24347pt>
 File: figures/baseline_speed.png Graphic file (type png)
 <use figures/baseline_speed.png>
-Package pdftex.def Info: figures/baseline_speed.png  used on input line 256.
+Package pdftex.def Info: figures/baseline_speed.png  used on input line 253.
 (pdftex.def)             Requested size: 227.62204pt x 207.15268pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 256--257
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 253--254
  [][] 
  []
 
-<figures/anon_base_compare.png, id=70, 284.20178pt x 208.67963pt>
+
+Underfull \vbox (badness 1194) has occurred while \output is active []
+
+ [4 <./figures/baseline_reward.png> <./figures/baseline_speed.png>]
+<figures/anon_base_compare.png, id=127, 284.20178pt x 208.67963pt>
 File: figures/anon_base_compare.png Graphic file (type png)
 <use figures/anon_base_compare.png>
-Package pdftex.def Info: figures/anon_base_compare.png  used on input line 289.
+Package pdftex.def Info: figures/anon_base_compare.png  used on input line 286.
 
 (pdftex.def)             Requested size: 227.62204pt x 167.14134pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 289--293
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 286--290
  [][] 
  []
 
-<figures/anon_base_dist_bite.png, id=71, 247.70543pt x 246.4407pt>
+<figures/anon_base_dist_bite.png, id=128, 247.70543pt x 259.99132pt>
 File: figures/anon_base_dist_bite.png Graphic file (type png)
 <use figures/anon_base_dist_bite.png>
 Package pdftex.def Info: figures/anon_base_dist_bite.png  used on input line 29
-9.
-(pdftex.def)             Requested size: 227.62204pt x 226.4612pt.
+6.
+(pdftex.def)             Requested size: 227.62204pt x 238.91324pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 299--304
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 296--301
  [][] 
  []
 
 
-Underfull \vbox (badness 2277) has occurred while \output is active []
+Underfull \vbox (badness 2142) has occurred while \output is active []
 
- [4 <./figures/baseline_reward.png> <./figures/baseline_speed.png>] [5 <./figur
-es/anon_base_compare.png> <./figures/anon_base_dist_bite.png>]
-<figures/anon_health_compare.png, id=94, 285.10515pt x 317.80733pt>
+ [5 <./figures/anon_base_compare.png> <./figures/anon_base_dist_bite.png>]
+<figures/anon_health_compare.png, id=143, 285.10515pt x 317.80733pt>
 File: figures/anon_health_compare.png Graphic file (type png)
 <use figures/anon_health_compare.png>
 Package pdftex.def Info: figures/anon_health_compare.png  used on input line 34
-6.
+3.
 (pdftex.def)             Requested size: 227.62204pt x 253.73701pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 346--354
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 343--351
  [][] 
  []
 
-[6 <./figures/anon_health_compare.png>]
-
-LaTeX Warning: Reference `font-table' on page 7 undefined on input line 469.
-
-[7] [8] (./paper.bbl [9]
-Underfull \hbox (badness 1102) in paragraph at lines 65--70
-[]\OT1/ptm/m/n/10 Mohammad Sadegh Ra-sooli and Joel R. Tetreault.
+(./paper.bbl
+Underfull \hbox (badness 6141) in paragraph at lines 12--15
+[]\OT1/ptm/m/n/10 Mohammad Ghavamzadeh, Shie Man-nor, Joelle
  []
 
 
-Underfull \hbox (badness 1092) in paragraph at lines 65--70
-\OT1/ptm/m/n/10 dency parser[][].  \OT1/ptm/m/it/10 Com-put-ing Re-search Repos
--i-tory\OT1/ptm/m/n/10 ,
+Underfull \hbox (badness 1152) in paragraph at lines 12--15
+\OT1/ptm/m/n/10 force-ment learn-ing: A sur-vey.  \OT1/ptm/m/it/10 arXiv prepri
+nt
+ []
+
+
+Underfull \hbox (badness 1077) in paragraph at lines 24--28
+\OT1/ptm/m/n/10 Pritzel, Nico-las Heess, Tom Erez, Yu-val Tassa,
+ []
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 40--48
+\OT1/ptm/m/n/10 je-land, Georg Os-tro-vski, Stig Pe-tersen, Charles
+ []
+
+[6 <./figures/anon_health_compare.png>]
+Underfull \hbox (badness 1259) in paragraph at lines 76--80
+\OT1/ptm/m/n/10 following al-go-rithms for con-nec-tion-ist re-in-force-
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 682.
- [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 682.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 393.
+ [7
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 393.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 682.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 682.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 393.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 393.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 682.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 393.
  )
 (\end occurred when \iffalse on line 352 was incomplete) 
 Here is how much of TeX's memory you used:
- 10266 strings out of 480608
- 158895 string characters out of 5903629
- 463661 words of memory out of 5000000
- 25702 multiletter control sequences out of 15000+600000
- 570300 words of font info for 202 fonts, out of 8000000 for 9000
+ 10212 strings out of 480608
+ 158336 string characters out of 5903629
+ 462429 words of memory out of 5000000
+ 25678 multiletter control sequences out of 15000+600000
+ 563857 words of font info for 190 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 49i,12n,46p,905b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/202
-0/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2020/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2020/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2020/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmsy8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/am
-sfonts/symbols/msam10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/publi
-c/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/u
-rw/courier/ucrr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times
-/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmr8a.pf
-b></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (10 pages, 1080069 bytes).
+ 49i,13n,46p,905b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): 
+name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed o
+ne
+
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
+ive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texli
+ve/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
+/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2
+020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/202
+0/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2020/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2020/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2020/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2020/texmf
+-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2020/t
+exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/ty
+pe1/urw/times/utmr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on paper.pdf (7 pages, 1060091 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
- 259 compressed objects within 3 object streams
- 86 named destinations out of 1000 (max. 500000)
- 24602 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 203 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 21530 words of extra memory for PDF output out of 24883 (max. 10000000)
 

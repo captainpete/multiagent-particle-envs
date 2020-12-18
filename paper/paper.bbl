@@ -1,71 +1,81 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{11}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[{Aho and Ullman(1972)}]{Aho:72}
-Alfred~V. Aho and Jeffrey~D. Ullman. 1972.
-\newblock \emph{The Theory of Parsing, Translation and Compiling}, volume~1.
-\newblock Prentice-Hall, Englewood Cliffs, NJ.
+\bibitem[{Bhatnagar et~al.(2009)Bhatnagar, Sutton, Ghavamzadeh, and
+  Lee}]{bhatnagar2009natural}
+Shalabh Bhatnagar, Richard~S Sutton, Mohammad Ghavamzadeh, and Mark Lee. 2009.
+\newblock Natural actor--critic algorithms.
+\newblock \emph{Automatica}, 45(11):2471--2482.
 
-\bibitem[{{American Psychological Association}(1983)}]{APA:83}
-{American Psychological Association}. 1983.
-\newblock \emph{Publications Manual}.
-\newblock American Psychological Association, Washington, DC.
+\bibitem[{Ghavamzadeh et~al.(2016)Ghavamzadeh, Mannor, Pineau, and
+  Tamar}]{ghavamzadeh2016bayesian}
+Mohammad Ghavamzadeh, Shie Mannor, Joelle Pineau, and Aviv Tamar. 2016.
+\newblock Bayesian reinforcement learning: A survey.
+\newblock \emph{arXiv preprint arXiv:1609.04436}.
 
-\bibitem[{Ando and Zhang(2005)}]{Ando2005}
-Rie~Kubota Ando and Tong Zhang. 2005.
-\newblock A framework for learning predictive structures from multiple tasks
-  and unlabeled data.
-\newblock \emph{Journal of Machine Learning Research}, 6:1817--1853.
+\bibitem[{Leike et~al.(2017)Leike, Martic, Krakovna, Ortega, Everitt, Lefrancq,
+  Orseau, and Legg}]{leike2017ai}
+Jan Leike, Miljan Martic, Victoria Krakovna, Pedro~A. Ortega, Tom Everitt,
+  Andrew Lefrancq, Laurent Orseau, and Shane Legg. 2017.
+\newblock \href {http://arxiv.org/abs/1711.09883} {Ai safety gridworlds}.
 
-\bibitem[{Andrew and Gao(2007)}]{andrew2007scalable}
-Galen Andrew and Jianfeng Gao. 2007.
-\newblock Scalable training of {L1}-regularized log-linear models.
-\newblock In \emph{Proceedings of the 24th International Conference on Machine
-  Learning}, pages 33--40.
+\bibitem[{Lillicrap et~al.(2019)Lillicrap, Hunt, Pritzel, Heess, Erez, Tassa,
+  Silver, and Wierstra}]{lillicrap2019continuous}
+Timothy~P. Lillicrap, Jonathan~J. Hunt, Alexander Pritzel, Nicolas Heess, Tom
+  Erez, Yuval Tassa, David Silver, and Daan Wierstra. 2019.
+\newblock \href {http://arxiv.org/abs/1509.02971} {Continuous control with deep
+  reinforcement learning}.
 
-\bibitem[{B{\"o}rschinger and
-  Johnson(2011)}]{borschinger-johnson-2011-particle}
-Benjamin B{\"o}rschinger and Mark Johnson. 2011.
-\newblock \href {https://www.aclweb.org/anthology/U11-1004} {A particle filter
-  algorithm for {B}ayesian wordsegmentation}.
-\newblock In \emph{Proceedings of the Australasian Language Technology
-  Association Workshop 2011}, pages 10--18, Canberra, Australia.
+\bibitem[{Lowe et~al.(2020)Lowe, Wu, Tamar, Harb, Abbeel, and
+  Mordatch}]{lowe2020multiagent}
+Ryan Lowe, Yi~Wu, Aviv Tamar, Jean Harb, Pieter Abbeel, and Igor Mordatch.
+  2020.
+\newblock \href {http://arxiv.org/abs/1706.02275} {Multi-agent actor-critic for
+  mixed cooperative-competitive environments}.
 
-\bibitem[{Chandra et~al.(1981)Chandra, Kozen, and Stockmeyer}]{Chandra:81}
-Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer. 1981.
-\newblock \href {https://doi.org/10.1145/322234.322243} {Alternation}.
-\newblock \emph{Journal of the Association for Computing Machinery},
-  28(1):114--133.
+\bibitem[{{Mnih} et~al.(2015){Mnih}, {Kavukcuoglu}, {Silver}, {Rusu}, {Veness},
+  {Bellemare}, {Graves}, {Riedmiller}, {Fidjeland}, {Ostrovski}, {Petersen},
+  {Beattie}, {Sadik}, {Antonoglou}, {King}, {Kumaran}, {Wierstra}, {Legg}, and
+  {Hassabis}}]{2015Natur.518..529M}
+Volodymyr {Mnih}, Koray {Kavukcuoglu}, David {Silver}, Andrei~A. {Rusu}, Joel
+  {Veness}, Marc~G. {Bellemare}, Alex {Graves}, Martin {Riedmiller}, Andreas~K.
+  {Fidjeland}, Georg {Ostrovski}, Stig {Petersen}, Charles {Beattie}, Amir
+  {Sadik}, Ioannis {Antonoglou}, Helen {King}, Dharshan {Kumaran}, Daan
+  {Wierstra}, Shane {Legg}, and Demis {Hassabis}. 2015.
+\newblock \href {https://doi.org/10.1038/nature14236} {{Human-level control
+  through deep reinforcement learning}}.
+\newblock \emph{Nature}, 518(7540):529--533.
 
-\bibitem[{Goodman et~al.(2016)Goodman, Vlachos, and
-  Naradowsky}]{goodman-etal-2016-noise}
-James Goodman, Andreas Vlachos, and Jason Naradowsky. 2016.
-\newblock \href {https://doi.org/10.18653/v1/P16-1001} {Noise reduction and
-  targeted exploration in imitation learning for abstract meaning
-  representation parsing}.
-\newblock In \emph{Proceedings of the 54th Annual Meeting of the Association
-  for Computational Linguistics (Volume 1: Long Papers)}, pages 1--11, Berlin,
-  Germany. Association for Computational Linguistics.
+\bibitem[{Ng et~al.(2000)Ng, Russell et~al.}]{ng2000algorithms}
+Andrew~Y Ng, Stuart~J Russell, et~al. 2000.
+\newblock Algorithms for inverse reinforcement learning.
+\newblock In \emph{Icml}, volume~1, page~2.
 
-\bibitem[{Gusfield(1997)}]{Gusfield:97}
-Dan Gusfield. 1997.
-\newblock \emph{Algorithms on Strings, Trees and Sequences}.
-\newblock Cambridge University Press, Cambridge, UK.
+\bibitem[{Silver et~al.(2014)Silver, Lever, Heess, Degris, Wierstra, and
+  Riedmiller}]{pmlr-v32-silver14}
+David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and
+  Martin Riedmiller. 2014.
+\newblock \href {http://proceedings.mlr.press/v32/silver14.html} {Deterministic
+  policy gradient algorithms}.
+\newblock In \emph{Proceedings of the 31st International Conference on Machine
+  Learning}, volume~32 of \emph{Proceedings of Machine Learning Research},
+  pages 387--395, Bejing, China. PMLR.
 
-\bibitem[{Harper(2014)}]{harper-2014-learning}
-Mary Harper. 2014.
-\newblock \href {https://www.aclweb.org/anthology/C14-1001} {Learning from 26
-  languages: Program management and science in the babel program}.
-\newblock In \emph{Proceedings of {COLING} 2014, the 25th International
-  Conference on Computational Linguistics: Technical Papers}, page~1, Dublin,
-  Ireland. Dublin City University and Association for Computational
-  Linguistics.
+\bibitem[{Sutton and Barto(2018)}]{SuttonBarto}
+Richard~S. Sutton and Andrew~G. Barto. 2018.
+\newblock \emph{Reinforcement Learning: An Introduction}.
+\newblock A Bradford Book, Cambridge, MA, USA.
 
-\bibitem[{Rasooli and Tetreault(2015)}]{rasooli-tetrault-2015}
-Mohammad~Sadegh Rasooli and Joel~R. Tetreault. 2015.
-\newblock \href {http://arxiv.org/abs/1503.06733} {Yara parser: {A} fast and
-  accurate dependency parser}.
-\newblock \emph{Computing Research Repository}, arXiv:1503.06733.
-\newblock Version 2.
+\bibitem[{Watkins(1989)}]{watkins}
+Christopher J. C.~H. Watkins. 1989.
+\newblock \href {http://www.cs.rhul.ac.uk/~chrisw/new_thesis.pdf}
+  {\emph{Learning from Delayed Rewards}}.
+\newblock Ph.D. thesis, Kings College.
+
+\bibitem[{Williams(1992)}]{Williams92simplestatistical}
+Ronald~J. Williams. 1992.
+\newblock Simple statistical gradient-following algorithms for connectionist
+  reinforcement learning.
+\newblock In \emph{Machine Learning}, pages 229--256.
 
 \end{thebibliography}

@@ -1,15 +1,5 @@
 % File acl2020.tex
-%
-%% Based on the style files for ACL 2020, which were
-%% Based on the style files for ACL 2018, NAACL 2018/19, which were
-%% Based on the style files for ACL-2015, with some improvements
-%%  taken from the NAACL-2016 style
-%% Based on the style files for ACL-2014, which were, in turn,
-%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
-%% EACL-2009, IJCNLP-2008...
-%% Based on the style files for EACL 2006 by 
-%%e.agirre@ehu.es or Sergi.Balari@uab.es
-%% and that of ACL 08 by Joakim Nivre and Noah Smith
+%% Based on the style files for ACL 2020
 
 \documentclass[11pt,a4paper]{article}
 \usepackage[hyperref]{acl2020}
@@ -39,10 +29,18 @@
 
 \title{Multi-Agent Reinforcement Learning in Zombie-Survival Games}
 
-\author{Peter Hollows \\
-  \texttt{stanford@dojo7.com} \\\And
-  Mark Presser \\
-  \texttt{mark.presser95@gmail.com} \\}
+\author{
+  Peter Hollows
+  \thanks {
+    Group submission for the final paper of XCS229ii,
+    \mbox{Stanford Center for Professional Development}
+  }
+  \\ \texttt{stanford@dojo7.com} \\
+  \And
+  Mark Presser
+  \footnotemark[1]
+  \\ \texttt{mark.presser95@gmail.com} \\
+}
 
 \date{}
 
@@ -65,7 +63,7 @@ Often, there is not enough data available, or it cannot be captured safely (cons
 To work around these issues, RL policies intended for real-world control tasks are usually trained in simulated environments before being further trained or deployed in the real-world.
 
 However, simulations often do not capture all the relevant real-world dynamics, so it can be difficult to transition a policy from the simulator to reality.
-This difficulty, known as the "reality gap", is often mitigated by adding noise to the simulation (to mimic noisy sensors and stochastic dynamics),
+This difficulty, known as the ``reality gap'', is often mitigated by adding noise to the simulation (to mimic noisy sensors and stochastic dynamics),
 or by sufficiently improving the simulation to model the relevant dynamics.
 
 This approach has enjoyed success in single-agent RL settings like autonomous aircraft and robotics.
@@ -76,23 +74,22 @@ In cooperative settings like factories, or competitive settings like markets, us
 simulating the dynamics of other agents present in the environment is a difficult problem, even in simulation.
 This is especially the case when the policies of multiple agents are being modified and improved at the same time.
 
-These issues in multi-agent settings motivated a training algorithm called Multi-Agent Deep Deterministic Policy Gradient (MADDPG).
-MADDPG addresses some issues in multi-agent learning, and allows running experiments that explore the emergence of policies competitive and cooperative policies in complex environments.
-
-\subsection{Environmental Dynamics}
-
-We explore MADDPG in the context of a mixed competitive-cooperative simulated environment called Zombie-Survival game under multiple scenarios.
-In these scenarios we show how specific kinds of environmental dynamics can affect large (and sometimes surprising and unintended) changes in the evolution of policies.
-We present methods and results for each scenario, and conclude with a discussion (\ref{sec:discussion}) on safety issues we feel apply to a wide array of RL systems.
+These issues in multi-agent settings motivated a training algorithm called Multi-Agent Deep Deterministic Policy Gradient (MADDPG) \citep{lowe2020multiagent}.
+MADDPG addresses some issues in multi-agent learning, and allows running experiments that explore the emergence of competitive and cooperative policies in complex environments.
 
 \subsection{Overview}
+
+We explore MADDPG in the context of a mixed competitive-cooperative simulated environment called ``Zombie-Survival''.
+We make several modifications in order to test different scenarios.
+In these scenarios we show how specific kinds of environmental dynamics can affect changes in the evolution of policies.
 
 In (\ref{sec:background}) we review theory, RL algorithms, and aspects of agent design.
 In (\ref{sec:game}) we detail the basic simulation environment.
 In (\ref{sec:baseline}) we detail the experimental setup and initial results.
-In (\ref{sec:anon}) we investigate partial observability, and how compression of the observation function can speed policy discovery.
-In (\ref{sec:health}) we alter the environment to cause a change in the value function (keeping reward unchanged) to study the impact on learned policies.
+In (\ref{sec:anon}) we investigate partial observability, and how compression of the observation-space can speed policy discovery.
+In (\ref{sec:health}) we alter the environment to cause a change in the value-function (keeping reward unchanged) to study the impact on learned policies.
 In (\ref{sec:arms}) we arm the survivors with projectile weapons to investigate how additional capability can make it harder for agents to achieve their objectives.
+We present methods and results for each scenario, and conclude with a discussion (\ref{sec:discussion}) of our findings.
 
 \section{Background}
 \label{sec:background}
@@ -109,35 +106,35 @@ RL algorithms attempt to solve the MDP in order to maximize return (reward over 
 This can be done by learning a policy (a function that maps from state to action).
 A policy can often be learned directly, or by learning a value function (a mapping from states and actions to expected returns) from which a policy can be extracted.
 
-\subsection{DDPG}
+\subsection{Algorithms}
 
-Q-Learning is a popular RL method that makes use of an action-value function $Q^\pi(s, a)$ corresponding to a policy $\pi$ (where $s$ is the state, and $a$ the action).
-Deep Q-Learning learns (DQN) learns the action-value function $Q^*$ corresponding to the optimal policy by minimizing the loss function
+\paragraph{Deep Q-Learning Networks:} Q-Learning \citep{watkins} is an RL method that makes use of an action-value function $Q^\pi(s, a)$ corresponding to a policy $\pi$ (where $s$ is the state, and $a$ the action).
+Deep Q-Learning Networks (DQN) \citep{2015Natur.518..529M} learn the action-value function $Q^*$ corresponding to the optimal policy by minimizing the loss function
 \begin{equation}
   \mathcal{L}(\theta)=\mathbb{E}_{s,a,r,s'}[(Q^*(s,a|\theta)-y)^2],
 \end{equation}
 where $y=r+\gamma\max_{a'}\bar{Q}^*(s',a')$,
 by repeatedly adjusting the parameters $\theta$ of the target action-value function $\bar{Q}$.
 The Q-function can be expressed as $Q^{\pi}(s,a)=\mathbb{E}[R|s,a]$, where $R_t$ is the discounted sum of future rewards at time $t$, given by: $R_t=\sum_{k=t}^\infty\gamma(k-t)r_k$.
-To reduce the variance of estimates for the above expectation, Q-Learning often makes use of an Experience Replay (ER) buffer that stores the experiences of many state transitions.
+To reduce the variance of estimates for the above expectation, DQN makes use of an Experience Replay (ER) buffer that stores the experiences of many state transitions.
 
-Policy-gradient (PG) methods learn a policy $\pi_\theta$, parameterized by $\theta$,
+\paragraph{Policy-gradient methods} learn a policy $\pi_\theta$, parameterized by $\theta$,
 by sampling the gradient of a performance measure $J(\theta)$ with respect to $\theta$.
 
 \begin{equation}
   \nabla_\theta J(\theta)=\mathbb{E}_\pi\left[Q^\pi(s, a) \frac{\nabla_\theta\pi_\theta(a|s)}{\pi_\theta(a|s)}\right]
 \end{equation}
 
-REINFORCE, a simple PG algorithm, uses all the steps in an episode to find $Q^\pi(s,a)=\mathbb{E}_\pi[G|s,a]$, where $G$ is the total reward of an episode.
-Because reward functions sometimes give high values for some states, this method can give high variance gradient estimates.
-This can be remedied by using a baseline $b(s)$:
+\paragraph{REINFORCE} \citep{Williams92simplestatistical}, a simple policy-gradient algorithm, uses all the steps in an episode to find $Q^\pi(s,a)=\mathbb{E}_\pi[G|s,a]$, where $G$ is the total reward of an episode.
+Because reward functions sometimes give high values for some states, this method can give high-variance gradient estimates.
+This can be remedied by using a baseline $b(s)$ \citep{SuttonBarto}:
 
 \begin{equation}
   \nabla_\theta J(\theta)=\mathbb{E}_\pi\left[(G-b(s)) \frac{\nabla_\theta\pi_\theta(a|s)}{\pi_\theta(a|s)}\right]
 \end{equation}
 
-Actor-Critic (AC) improves on REINFORCE by learning a state-value function with baseline (critic), and an action-value function (actor) concurrently.
-AC also has the advantage that the parameters for both functions are updated at every step in an episode.
+\paragraph{Actor-critic} \citep{bhatnagar2009natural} improves on REINFORCE by learning a state-value function with baseline (critic), and an action-value function (actor) concurrently.
+Actor-critic also has the advantage that the parameters for both functions are updated at every step in an episode.
 The policy gradient at each time step $t$ can be expressed:
 
 \begin{equation}
@@ -149,7 +146,7 @@ The policy gradient at each time step $t$ can be expressed:
 
 where $\gamma$ is a discount parameter, and $\hat{v}(w)$ the state-value function with parameters $w$.
 
-Deterministic Policy Gradient (DPG) methods extend policy gradient to deterministic policies.
+\paragraph{Deterministic Policy Gradient (DPG)} \citep{pmlr-v32-silver14} algorithms extend policy gradient methods to deterministic policies.
 A deterministic policy ($\mu_\theta$) maps a state to an action,
 whereas a stochastic policy ($\pi_\theta$) provides a conditional probability of an action in a given state.
 
@@ -160,7 +157,7 @@ whereas a stochastic policy ($\pi_\theta$) provides a conditional probability of
 DPG methods are often used in continuous control tasks
 (taking the gradient of $Q^\mu$ with respect to $a$ requires the action space to be continuous).
 
-Deep Deterministic Policy Gradient (DDPG) combines ideas from DPG and DQN.
+\paragraph{Deep Deterministic Policy Gradient (DDPG)} \citep{lillicrap2019continuous} combines ideas from DPG and DQN.
 In DDPG the actor and critic are approximated with neural networks.
 DDPG uses target networks for both actor and critic, and makes use of an experience replay buffer to store agent trajectories.
 
@@ -171,7 +168,7 @@ From the perspective of an agent, the influence on rewards from other agents in 
 this is especially so when the environment contains other agents that are also learning policies,
 because elements of the `environment' change while the agent is trying to learn them.
 
-It was shown in () that the chance of sampling a policy-gradient update in an improved direction decreases exponentially with the number of agents being trained in the shared environemnt.
+\citealp{lowe2020multiagent} showed that the chance of sampling a policy-gradient update in an improved direction decreases exponentially with the number of agents being trained in the shared environemnt.
 
 MADDPG addresses this stabilitiy issue by using centralized critics.
 In MADDPG, the critic $Q^\pi_i(x, a_1, a_2, ..., a_N)$ for agent $i$ has access to the actions of all $N$ agents, and some state information $x$.
@@ -179,7 +176,7 @@ The critic is often only used in training, so it's possible to deploy MADDPG act
 Agents can have different state and action spaces, and be goverened by different reward functions.
 We use the MADDPG algorithm for all agents within our scenarios.
 
-\subsection{Agent design}
+\subsection{Agent Design}
 
 When implementing an RL system there are many important design considerations:
 
@@ -187,10 +184,10 @@ When implementing an RL system there are many important design considerations:
   \item \emph{Algorithm}: Different algorithms are suited to different tasks. A selected algorithm will need to perform well with the selected action-space, state-space, reward function and environmental dynamics.
   \item \emph{State-space}: The state-space describes how environmental observations are presented to the algorithm. Constructing the correct, relevant abstractions allow an agent to better learn the environment.
   \item \emph{Action-space}: The action-space describes actions available to the agent. The level of abstraction here should be fine enough for precise control, but general enough for a policy to be learnable.
-  \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Most algorithms assume the reward signal contains no noise, and require point-estimates rather than a distribution. Crafting a consistent reward function that reflects the exact desires of the designer can be challenging. Some algorithms can infer the a reward function from feedback, but most will try to maximize explicit reward.
+  \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Some algorithms can model uncertainty in the reward function \citep{ghavamzadeh2016bayesian}, but most expect a point-estimate rather than a distribution. Crafting a consistent reward function that reflects the exact desires of the designer can be challenging \citep{leike2017ai}. Some algorithms can infer the a reward function from feedback \citep{ng2000algorithms}, but most simply try to maximize the explicit reward from a hard-coded function.
 \end{itemize}
 
-We examine the imapct of design choices for state-space, action-space, and reward function in our scenarios.
+In our scenarios we examine the imapct of design choices for state-space and action-space under a fixed reward-function.
 
 \section{Scenarios}
 \label{sec:scenarios}
@@ -206,7 +203,7 @@ Survivors can suffer a bite from multiple zombies in the same time step.
 
 Zombies have the advantage of numbers (there are 5 zombies and 2 survivors), whereas survivors have the advantage of faster accleration and a higher maximum speed.
 All reward functions are independent, agents do not share reward.
-The game offers a scenario with asymmetric power dynamics between competitive teams, and allows the emergence of compeitive or cooperative behavior within a team.
+The game offers a scenario with asymmetric power dynamics between competitive teams, and allows the emergence of competitive or cooperative behavior within a team.
 
 \begin{table}
 \centering
@@ -229,7 +226,7 @@ The game offers a scenario with asymmetric power dynamics between competitive te
 \subsection{Scenario: Baseline}
 \label{sec:baseline}
 
-We modify the 'Predator-prey' particle environment from (), which implements a multi-agent environment with a continuous action-space, a fully-observable state-space, and basic 2D physics.
+We modify the ``Predator-prey'' particle environment from \citealp{lowe2020multiagent}, which implements a multi-agent environment with a continuous action-space, a fully-observable state-space, and basic 2D physics.
 Each agent is represented as a circle that has mass, position, velocity, velocity dampening, maximum acceleration, and maximum speed.
 The predator-prey environment uses reward shaping to discourage agents from moving out of bounds.
 We remove this additional term in the reward function and implement fixed boundary walls.
@@ -245,7 +242,7 @@ We run several training jobs for 10,000 steps each to capture the emergence of d
   \label{fig:baseline_reward}
 \end{figure}
 
-There was some variability between training runs in the baseline scenario.
+\paragraph{Variability:} We observed variability in policy convergence between training runs.
 Figure \ref{fig:baseline_reward} shows agent reward graphs over multiple runs.
 The reward trace for $r_5$ shows the zombie agent experienced a spike in reward corresponding to a drop in reward for a survivor in $r_0$
 that occurred only once in 10 training runs.
@@ -258,7 +255,7 @@ Most agents show a similar pattern for at least one run.
   \label{fig:baseline_speed}
 \end{figure}
 
-On further investigation we discovered the reason for this; a zombie usually fixates on a target, but zombies learn policies at different rates.
+\paragraph{Target fixation:} On further investigation we discovered the reason for the variability; a zombie usually fixates on a target, but zombies learn policies at different rates.
 Figure \ref{fig:baseline_speed} shows speed and reward over time for a single training run.
 We see that one survivor is not pursued as often to start with, but then recieves increasing attention from zombies learning to persure it.
 Following this attention the survivor learns to move much faster.
@@ -321,7 +318,7 @@ We expect to see survivor policies emerge that are more risk-averse, and to see 
 
 \subsection{Results: Health}
 
-Compared to the \emph{anonymous} scenario, agents in the \emph{health} scenario were slower on average (see Figure \ref{fig:anon_health_compare}, plot 1).
+\paragraph{Breakout:} Compared to the \emph{anonymous} scenario, agents in the \emph{health} scenario were slower on average (see Figure \ref{fig:anon_health_compare}, plot 1).
 It's interesting to note this slowdown occurred before the reward ramp-up due to zombies successfully immobilizing survivors.
 In part the slower speeds can be explained through partial health reductions, but rendering the simulation frames provided another explanation.
 In previous scenarios, survivors would run into walls at maximum speed to bounce back through the persuring group of zombies without losing speed.
@@ -332,14 +329,14 @@ leading to a very bad outcome after only a few bounces.
 With health to consider, survivors opted for more impressive fake-and-dodge manouvers to avoid contact altogether.
 Often this would involve pausing to allow zombies to move closer to their target, then making use of the survivors' higher acceleration to escape at an angle orthagonal to the zombie group's velocity.
 
-However, clever dodging only worked in some instances.
-We measured a drastic increase in average zombie reward (see Figure \ref{fig:anon_health_compare}, plot 2) due to zombies learning to immobilize and bite survivors.
-In most cases, one survivor who would succumb to the zombies first, attracting the attention of most of the zombies and allowing the remaining survivor to stay out of harm's way.
+\paragraph{Game-over:} We measured a drastic increase in average zombie reward (see Figure \ref{fig:anon_health_compare}, plot 2) due to zombies learning to immobilize and bite survivors.
+In most cases, one survivor would succumb to the zombies first.
+Zombies learn that moving in the direction of the slower-moving survivor leads to states with higher expected value, so they collaborate in slowing down one survivor, leaving the other survivor to escape out of harm's way.
 
-We found it difficult to predict at the beginning of an episode which survivor would ultimately attract the zombies.
-In watching many episodes we found a survivor having many zombies in tow would move directly toward the other survivor (who was often be keeping their distance in a corner).
-The first survivor would have higher velocity, and use it to risk a wall-bounce manouver near the second slower-moving one.
-The first survivor in this instance would retain the speed required to escape while the zombies switched their persuit to overrun the second survivor.
+%We found it difficult to predict at the beginning of an episode which survivor would ultimately attract the zombies.
+%In watching many episodes we found a survivor having many zombies in tow would move directly toward the other survivor (who was often be keeping their distance in a corner).
+%The first survivor would have higher velocity, and use it to risk a wall-bounce manouver near the second slower-moving one.
+%The first survivor in this instance would retain the speed required to escape while the zombies switched their persuit to overrun the second survivor.
 
 \begin{figure}
   \centering
@@ -358,19 +355,20 @@ The first survivor in this instance would retain the speed required to escape wh
 \subsection{Scenario: Armed}
 \label{sec:arms}
 
-In the \emph{armed} scenario we modify the \emph{health} scenario by arming the survivors with pistols.
-Each armed agent has a pistol that fires 2 shots when activated.
-On firing, two rays are cast with a small random spread ($\angle p \sim \mathcal{N}(\angle aim, 2^\circ)$) for a range (2m) that covers most of the area.
+In the \emph{armed} scenario we attempt to rebalance the game by modifying the \emph{health} scenario to arm the survivors with firearms.
+Each armed agent has a firearm that fires 2 shots simultaneously when activated.
+On firing, two rays are cast with a small random spread ($\angle ray \sim \mathcal{N}(\angle aim, 2^\circ)$).
 When a ray first intersects with another agent it is counted as a `hit'.
 An agent experiencing a hit has their health level reduced (by 0.2).
 Armed agents require time to reload (1 step).
 Both zombies and survivors can be rendered immobile through reduced health by being hit too often.
 
-We add a normalized current heading and relative heading of locations of other agents to an armed agent's state space, as well as a normalized time remaining until reloaded.
+We add a normalized current heading and relative heading of locations of other agents to an armed agent's state space, as well as a normalized time remaining until the firearm is reloaded.
+
 Reloading is automatic and does not require an action.
-The continuous Aiming action (left and right) modifies angular velocity of aim directly up to a maximum speed of 1 revolution per second.
-The firing mechanic is implemented as a `tirgger pressure' which determines the probability of a loaded pistol firing in a given timestep.
-Firing probability is implemented as the sigmoid function $p(fire) = \frac{1}{1+e^{20(x-0.5)}}$, where $x$ is the pressure on the trigger.
+The continuous aiming action (left and right) modifies angular velocity of aim directly up to a maximum speed of 1 revolution per second.
+The firing mechanic is implemented as a `trigger pressure' which determines the probability of a loaded firearm discharging in a given timestep.
+Firing probability is implemented as the sigmoid function $p(fire) = \frac{1}{1+e^{20(x-0.5)}}$, where $x$ is pressure on the trigger.
 
 We expect introducing the arms mechanic will move the balance of power back toward the survivors.
 We're not sure if the social dilemma presented will cause the survivors to fire on one another more often than the zombies,
@@ -378,305 +376,18 @@ but make no adjustment to the reward function to discourage it.
 
 \subsection{Results: Armed}
 
+TODO: Mark
+
 \section{Discussion}
 \label{sec:discussion}
 
-FROM HERE FOLLOWS TEMPLATE STUFF
-
-
-\paragraph{\LaTeX-specific details:}
-To use Times Roman in \LaTeX2e{}, put the following in the preamble:
-\begin{quote}
-\small
-\begin{verbatim}
-\usepackage{times}
-\usepackage{latexsym}
-\end{verbatim}
-\end{quote}
-
-
-\subsection{Ruler}
-A printed ruler (line numbers in the left and right margins of the article) should be presented in the version submitted for review, so that reviewers may comment on particular lines in the paper without circumlocution.
-The presence or absence of the ruler should not change the appearance of any other content on the page.
-The camera ready copy should not contain a ruler.
-
-\paragraph{Reviewers:}
-note that the ruler measurements may not align well with lines in the paper -- this turns out to be very difficult to do well when the paper contains many figures and equations, and, when done, looks ugly.
-In most cases one would expect that the approximate location will be adequate, although you can also use fractional references (\emph{e.g.}, this line ends at mark $295.5$).
-
-\paragraph{\LaTeX-specific details:}
-The style files will generate the ruler when {\small\verb|\aclfinalcopy|} is commented out, and remove it otherwise.
-
-\subsection{Title and Authors}
-\label{ssec:title-authors}
-
-Center the title, author's name(s) and affiliation(s) across both columns.
-Do not use footnotes for affiliations.
-Place the title centered at the top of the first page, in a 15-point bold font.
-Long titles should be typed on two lines without a blank line intervening.
-Put the title 2.5 cm from the top of the page, followed by a blank line, then the author's names(s), and the affiliation on the following line.
-Do not use only initials for given names (middle initials are allowed).
-Do not format surnames in all capitals (\emph{e.g.}, use ``Mitchell'' not ``MITCHELL'').
-Do not format title and section headings in all capitals except for proper names (such as ``BLEU'') that are
-conventionally in all capitals.
-The affiliation should contain the author's complete address, and if possible, an electronic mail address.
-
-The title, author names and addresses should be completely identical to those entered to the electronical paper submission website in order to maintain the consistency of author information among all publications of the conference.
-If they are different, the publication chairs may resolve the difference without consulting with you; so it is in your own interest to double-check that the information is consistent.
-
-Start the body of the first page 7.5 cm from the top of the page.
-\textbf{Even in the anonymous version of the paper, you should maintain space for names and addresses so that they will fit in the final (accepted) version.}
-
-
-\subsection{Abstract}
-Use two-column format when you begin the abstract.
-Type the abstract at the beginning of the first column.
-The width of the abstract text should be smaller than the
-width of the columns for the text in the body of the paper by 0.6 cm on each side.
-Center the word \textbf{Abstract} in a 12 point bold font above the body of the abstract.
-The abstract should be a concise summary of the general thesis and conclusions of the paper.
-It should be no longer than 200 words.
-The abstract text should be in 10 point font.
-
-\subsection{Text}
-Begin typing the main body of the text immediately after the abstract, observing the two-column format as shown in the present document.
-
-Indent 0.4 cm when starting a new paragraph.
-
-\subsection{Sections}
-
-Format section and subsection headings in the style shown on the present document.
-Use numbered sections (Arabic numerals) to facilitate cross references.
-Number subsections with the section number and the subsection number separated by a dot, in Arabic numerals.
-
-\subsection{Footnotes}
-Put footnotes at the bottom of the page and use 9 point font.
-They may be numbered or referred to by asterisks or other symbols.\footnote{This is how a footnote should appear.}
-Footnotes should be separated from the text by a line.\footnote{Note the line separating the footnotes from the text.}
-
-\subsection{Graphics}
-
-Place figures, tables, and photographs in the paper near where they are first discussed, rather than at the end, if possible.
-Wide illustrations may run across both columns.
-Color is allowed, but adhere to Section~\ref{ssec:accessibility}'s guidelines on accessibility.
-
-\paragraph{Captions:}
-Provide a caption for every illustration; number each one sequentially in the form:
-``Figure 1. Caption of the Figure.''
-``Table 1. Caption of the Table.''
-Type the captions of the figures and tables below the body, using 10 point text.
-Captions should be placed below illustrations.
-Captions that are one line are centered (see Table~\ref{font-table}).
-Captions longer than one line are left-aligned (see Table~\ref{tab:accents}).
-
-\begin{table}
-\centering
-\begin{tabular}{lc}
-\hline
-\textbf{Command} & \textbf{Output}\\
-\hline
-\verb|{\"a}| & {\"a} \\
-\verb|{\^e}| & {\^e} \\
-\verb|{\`i}| & {\`i} \\ 
-\verb|{\.I}| & {\.I} \\ 
-\verb|{\o}| & {\o} \\
-\verb|{\'u}| & {\'u}  \\ 
-\verb|{\aa}| & {\aa}  \\\hline
-\end{tabular}
-\begin{tabular}{lc}
-\hline
-\textbf{Command} & \textbf{Output}\\
-\hline
-\verb|{\c c}| & {\c c} \\ 
-\verb|{\u g}| & {\u g} \\ 
-\verb|{\l}| & {\l} \\ 
-\verb|{\~n}| & {\~n} \\ 
-\verb|{\H o}| & {\H o} \\ 
-\verb|{\v r}| & {\v r} \\ 
-\verb|{\ss}| & {\ss} \\
-\hline
-\end{tabular}
-\caption{Example commands for accented characters, to be used in, \emph{e.g.}, \BibTeX\ names.}\label{tab:accents}
-\end{table}
-
-\paragraph{\LaTeX-specific details:}
-The style files are compatible with the caption and subcaption packages; do not add optional arguments.
-\textbf{Do not override the default caption sizes.}
-
-
-\subsection{Hyperlinks}
-Within-document and external hyperlinks are indicated with Dark Blue text, Color Hex \#000099.
-
-\subsection{Citations}
-Citations within the text appear in parentheses as~\citep{Gusfield:97} or, if the author's name appears in the text itself, as \citet{Gusfield:97}.
-Append lowercase letters to the year in cases of ambiguities.  
-Treat double authors as in~\citep{Aho:72}, but write as in~\citep{Chandra:81} when more than two authors are involved. Collapse multiple citations as in~\citep{Gusfield:97,Aho:72}. 
-
-Refrain from using full citations as sentence constituents.
-Instead of
-\begin{quote}
-  ``\citep{Gusfield:97} showed that ...''
-\end{quote}
-write
-\begin{quote}
-``\citet{Gusfield:97} showed that ...''
-\end{quote}
-
-\begin{table*}
-\centering
-\begin{tabular}{lll}
-\hline
-\textbf{Output} & \textbf{natbib command} & \textbf{Old ACL-style command}\\
-\hline
-\citep{Gusfield:97} & \small\verb|\citep| & \small\verb|\cite| \\
-\citealp{Gusfield:97} & \small\verb|\citealp| & no equivalent \\
-\citet{Gusfield:97} & \small\verb|\citet| & \small\verb|\newcite| \\
-\citeyearpar{Gusfield:97} & \small\verb|\citeyearpar| & \small\verb|\shortcite| \\
-\hline
-\end{tabular}
-\caption{\label{citation-guide}
-Citation commands supported by the style file.
-The style is based on the natbib package and supports all natbib citation commands.
-It also supports commands defined in previous ACL style files for compatibility.
-}
-\end{table*}
-
-\paragraph{\LaTeX-specific details:}
-Table~\ref{citation-guide} shows the syntax supported by the style files.
-We encourage you to use the natbib styles.
-You can use the command {\small\verb|\citet|} (cite in text) to get ``author (year)'' citations as in \citet{Gusfield:97}.
-You can use the command {\small\verb|\citep|} (cite in parentheses) to get ``(author, year)'' citations as in \citep{Gusfield:97}.
-You can use the command {\small\verb|\citealp|} (alternative cite without  parentheses) to get ``author year'' citations (which is useful for  using citations within parentheses, as in \citealp{Gusfield:97}).
-
-
-\subsection{References}
-Gather the full set of references together under the heading \textbf{References}; place the section before any Appendices. 
-Arrange the references alphabetically by first author, rather than by order of occurrence in the text.
-
-Provide as complete a citation as possible, using a consistent format, such as the one for \emph{Computational Linguistics\/} or the one in the  \emph{Publication Manual of the American 
-Psychological Association\/}~\citep{APA:83}.
-Use full names for authors, not just initials.
-
-Submissions should accurately reference prior and related work, including code and data.
-If a piece of prior work appeared in multiple venues, the version that appeared in a refereed, archival venue should be referenced.
-If multiple versions of a piece of prior work exist, the one used by the authors should be referenced.
-Authors should not rely on automated citation indices to provide accurate references for prior and related work.
-
-The following text cites various types of articles so that the references section of the present document will include them.
-\begin{itemize}
-\item Example article in journal: \citep{Ando2005}.
-\item Example article in proceedings, with location: \citep{borschinger-johnson-2011-particle}.
-\item Example article in proceedings, without location: \citep{andrew2007scalable}.
-\item Example arxiv paper: \citep{rasooli-tetrault-2015}. 
-\end{itemize}
-
-
-\paragraph{\LaTeX-specific details:}
-The \LaTeX{} and Bib\TeX{} style files provided roughly follow the American Psychological Association format.
-If your own bib file is named \texttt{\small acl2020.bib}, then placing the following before any appendices in your \LaTeX{}  file will generate the references section for you:
-\begin{quote}\small
-\verb|\bibliographystyle{acl_natbib}|\\
-\verb|\bibliography{acl2020}|
-\end{quote}
-
-You can obtain the complete ACL Anthology as a Bib\TeX\ file from \url{https://aclweb.org/anthology/anthology.bib.gz}.
-To include both the anthology and your own bib file, use the following instead of the above.
-\begin{quote}\small
-\verb|\bibliographystyle{acl_natbib}|\\
-\verb|\bibliography{anthology,acl2020}|
-\end{quote}
-
-
-\subsection{Digital Object Identifiers}
-As part of our work to make ACL materials more widely used and cited outside of our discipline, ACL has registered as a CrossRef member, as a registrant of Digital Object Identifiers (DOIs), the standard for registering permanent URNs for referencing scholarly materials.
-
-All camera-ready references are required to contain the appropriate DOIs (or as a second resort, the hyperlinked ACL Anthology Identifier) to all cited works.
-Appropriate records should be found for most materials in the current ACL Anthology at \url{http://aclanthology.info/}.
-As examples, we cite \citep{goodman-etal-2016-noise} to show you how papers with a DOI will appear in the bibliography.
-We cite \citep{harper-2014-learning} to show how papers without a DOI but with an ACL Anthology Identifier will appear in the bibliography.
-
-\paragraph{\LaTeX-specific details:}
-Please ensure that you use Bib\TeX\ records that contain DOI or URLs for any of the ACL materials that you reference.
-If the Bib\TeX{} file contains DOI fields, the paper title in the references section will appear as a hyperlink to the DOI, using the hyperref \LaTeX{} package.
-
-
-\subsection{Appendices}
-Appendices, if any, directly follow the text and the
-references (but only in the camera-ready; see Appendix~\ref{sec:appendix}).
-Letter them in sequence and provide an informative title:
-\textbf{Appendix A. Title of Appendix}.
-
-\section{Accessibility}
-\label{ssec:accessibility}
-
-In an effort to accommodate people who are color-blind (as well as those printing to paper), grayscale readability is strongly encouraged.
-Color is not forbidden, but authors should ensure that tables and figures do not rely solely on color to convey critical distinctions.
-A simple criterion:
-All curves and points in your figures should be clearly distinguishable without color.
-
-\section{Translation of non-English Terms}
-
-It is also advised to supplement non-English characters and terms with appropriate transliterations and/or translations since not all readers understand all such characters and terms.
-Inline transliteration or translation can be represented in the order of:
-\begin{center}
-\begin{tabular}{c}
-original-form \\
-transliteration \\
-``translation''
-\end{tabular}
-\end{center}
-
-\section{\LaTeX{} Compilation Issues}
-You may encounter the following error during compilation: 
-\begin{quote}
-{\small\verb|\pdfendlink|} ended up in different nesting level than {\small\verb|\pdfstartlink|}.
-\end{quote}
-This happens when \texttt{\small pdflatex} is used and a citation splits across a page boundary.
-To fix this, the style file contains a patch consisting of two lines:
-(1) {\small\verb|\RequirePackage{etoolbox}|} (line 455 in \texttt{\small acl2020.sty}), and
-(2) A long line below (line 456 in \texttt{\small acl2020.sty}).
-
-If you still encounter compilation issues even with the patch enabled, disable the patch by commenting the two lines, and then disable the \texttt{\small hyperref} package by loading the style file with the \texttt{\small nohyperref} option:
-
-\noindent
-{\small\verb|\usepackage[nohyperref]{acl2020}|}
-
-\noindent
-Then recompile, find the problematic citation, and rewrite the sentence containing the citation. (See, {\em e.g.}, \url{http://tug.org/errors.html})
-
-\section*{Acknowledgments}
-
-The acknowledgments should go immediately before the references. Do not number the acknowledgments section.
-Do not include this section when submitting your paper for review.
-
-\bibliography{anthology,acl2020}
+\bibliography{paper}
 \bibliographystyle{acl_natbib}
 
 \appendix
-
-\section{Appendices}
+\section{Appendix}
 \label{sec:appendix}
-Appendices are material that can be read, and include lemmas, formulas, proofs, and tables that are not critical to the reading and understanding of the paper. 
-Appendices should be \textbf{uploaded as supplementary material} when submitting the paper for review.
-Upon acceptance, the appendices come after the references, as shown here.
 
-\paragraph{\LaTeX-specific details:}
-Use {\small\verb|\appendix|} before any appendix section to switch the section numbering over to letters.
-
-
-\section{Supplemental Material}
-\label{sec:supplemental}
-Submissions may include non-readable supplementary material used in the work and described in the paper.
-Any accompanying software and/or data should include licenses and documentation of research review as appropriate.
-Supplementary material may report preprocessing decisions, model parameters, and other details necessary for the replication of the experiments reported in the paper.
-Seemingly small preprocessing decisions can sometimes make a large difference in performance, so it is crucial to record such decisions to precisely characterize state-of-the-art methods. 
-
-Nonetheless, supplementary material should be supplementary (rather than central) to the paper.
-\textbf{Submissions that misuse the supplementary material may be rejected without review.}
-Supplementary material may include explanations or details of proofs or derivations that do not fit into the paper, lists of
-features or feature templates, sample inputs and outputs for a system, pseudo-code or source code, and data.
-(Source code and data should be separate uploads, rather than part of the paper).
-
-The paper should not rely on the supplementary material: while the paper may refer to and cite the supplementary material and the supplementary material will be available to the reviewers, they will not be asked to review the supplementary material.
+TODO: Mark
 
 \end{document}
