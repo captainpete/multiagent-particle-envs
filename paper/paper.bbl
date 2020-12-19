@@ -1,5 +1,26 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{25}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Abbeel et~al.(2006)Abbeel, Coates, Quigley, and
+  Ng}]{abbeel2006application}
+Pieter Abbeel, Adam Coates, Morgan Quigley, and Andrew Ng. 2006.
+\newblock An application of reinforcement learning to aerobatic helicopter
+  flight.
+\newblock \emph{Advances in neural information processing systems}, 19:1--8.
+
+\bibitem[{Badia et~al.(2020)Badia, Piot, Kapturowski, Sprechmann, Vitvitskyi,
+  Guo, and Blundell}]{badia2020agent57}
+Adrià~Puigdomènech Badia, Bilal Piot, Steven Kapturowski, Pablo Sprechmann,
+  Alex Vitvitskyi, Daniel Guo, and Charles Blundell. 2020.
+\newblock \href {http://arxiv.org/abs/2003.13350} {Agent57: Outperforming the
+  atari human benchmark}.
+
+\bibitem[{Barth-Maron et~al.(2018)Barth-Maron, Hoffman, Budden, Dabney, Horgan,
+  Tb, Muldal, Heess, and Lillicrap}]{barth2018distributed}
+Gabriel Barth-Maron, Matthew~W Hoffman, David Budden, Will Dabney, Dan Horgan,
+  Dhruva Tb, Alistair Muldal, Nicolas Heess, and Timothy Lillicrap. 2018.
+\newblock Distributed distributional deterministic policy gradients.
+\newblock \emph{arXiv preprint arXiv:1804.08617}.
 
 \bibitem[{Bhatnagar et~al.(2009)Bhatnagar, Sutton, Ghavamzadeh, and
   Lee}]{bhatnagar2009natural}
@@ -7,11 +28,68 @@ Shalabh Bhatnagar, Richard~S Sutton, Mohammad Ghavamzadeh, and Mark Lee. 2009.
 \newblock Natural actor--critic algorithms.
 \newblock \emph{Automatica}, 45(11):2471--2482.
 
+\bibitem[{Brockman et~al.(2016)Brockman, Cheung, Pettersson, Schneider,
+  Schulman, Tang, and Zaremba}]{1606.01540}
+Greg Brockman, Vicki Cheung, Ludwig Pettersson, Jonas Schneider, John Schulman,
+  Jie Tang, and Wojciech Zaremba. 2016.
+\newblock \href {http://arxiv.org/abs/arXiv:1606.01540} {Openai gym}.
+
+\bibitem[{Chen et~al.(2018)Chen, Lingys, Chen, and Liu}]{chen2018auto}
+Li~Chen, Justinas Lingys, Kai Chen, and Feng Liu. 2018.
+\newblock Auto: Scaling deep reinforcement learning for datacenter-scale
+  automatic traffic optimization.
+\newblock In \emph{Proceedings of the 2018 Conference of the ACM Special
+  Interest Group on Data Communication}, pages 191--205.
+
+\bibitem[{Dulac-Arnold et~al.(2019)Dulac-Arnold, Mankowitz, and
+  Hester}]{dulacarnold2019challenges}
+Gabriel Dulac-Arnold, Daniel Mankowitz, and Todd Hester. 2019.
+\newblock \href {http://arxiv.org/abs/1904.12901} {Challenges of real-world
+  reinforcement learning}.
+
 \bibitem[{Ghavamzadeh et~al.(2016)Ghavamzadeh, Mannor, Pineau, and
   Tamar}]{ghavamzadeh2016bayesian}
 Mohammad Ghavamzadeh, Shie Mannor, Joelle Pineau, and Aviv Tamar. 2016.
 \newblock Bayesian reinforcement learning: A survey.
 \newblock \emph{arXiv preprint arXiv:1609.04436}.
+
+\bibitem[{Hill et~al.(2018)Hill, Raffin, Ernestus, Gleave, Kanervisto, Traore,
+  Dhariwal, Hesse, Klimov, Nichol, Plappert, Radford, Schulman, Sidor, and
+  Wu}]{stable-baselines}
+Ashley Hill, Antonin Raffin, Maximilian Ernestus, Adam Gleave, Anssi
+  Kanervisto, Rene Traore, Prafulla Dhariwal, Christopher Hesse, Oleg Klimov,
+  Alex Nichol, Matthias Plappert, Alec Radford, John Schulman, Szymon Sidor,
+  and Yuhuai Wu. 2018.
+\newblock Stable baselines.
+\newblock \url{https://github.com/hill-a/stable-baselines}.
+
+\bibitem[{Hoffman et~al.(2020)Hoffman, Shahriari, Aslanides, Barth-Maron,
+  Behbahani, Norman, Abdolmaleki, Cassirer, Yang, Baumli, Henderson, Novikov,
+  Colmenarejo, Cabi, Gulcehre, Paine, Cowie, Wang, Piot, and
+  de~Freitas}]{hoffman2020acme}
+Matt Hoffman, Bobak Shahriari, John Aslanides, Gabriel Barth-Maron, Feryal
+  Behbahani, Tamara Norman, Abbas Abdolmaleki, Albin Cassirer, Fan Yang, Kate
+  Baumli, Sarah Henderson, Alex Novikov, Sergio~Gómez Colmenarejo, Serkan
+  Cabi, Caglar Gulcehre, Tom~Le Paine, Andrew Cowie, Ziyu Wang, Bilal Piot, and
+  Nando de~Freitas. 2020.
+\newblock \href {http://arxiv.org/abs/2006.00979} {Acme: A research framework
+  for distributed reinforcement learning}.
+
+\bibitem[{Jakobi et~al.(1995)Jakobi, Husbands, and Harvey}]{jakobi1995noise}
+Nick Jakobi, Phil Husbands, and Inman Harvey. 1995.
+\newblock Noise and the reality gap: The use of simulation in evolutionary
+  robotics.
+\newblock In \emph{European Conference on Artificial Life}, pages 704--720.
+  Springer.
+
+\bibitem[{Leibo et~al.(2017)Leibo, Zambaldi, Lanctot, Marecki, and
+  Graepel}]{10.5555/3091125.3091194}
+Joel~Z. Leibo, Vinicius Zambaldi, Marc Lanctot, Janusz Marecki, and Thore
+  Graepel. 2017.
+\newblock Multi-agent reinforcement learning in sequential social dilemmas.
+\newblock In \emph{Proceedings of the 16th Conference on Autonomous Agents and
+  MultiAgent Systems}, AAMAS '17, page 464–473, Richland, SC. International
+  Foundation for Autonomous Agents and Multiagent Systems.
 
 \bibitem[{Leike et~al.(2017)Leike, Martic, Krakovna, Ortega, Everitt, Lefrancq,
   Orseau, and Legg}]{leike2017ai}
@@ -33,6 +111,14 @@ Ryan Lowe, Yi~Wu, Aviv Tamar, Jean Harb, Pieter Abbeel, and Igor Mordatch.
 \newblock \href {http://arxiv.org/abs/1706.02275} {Multi-agent actor-critic for
   mixed cooperative-competitive environments}.
 
+\bibitem[{Mao et~al.(2019)Mao, Schwarzkopf, Venkatakrishnan, Meng, and
+  Alizadeh}]{mao2019learning}
+Hongzi Mao, Malte Schwarzkopf, Shaileshh~Bojja Venkatakrishnan, Zili Meng, and
+  Mohammad Alizadeh. 2019.
+\newblock Learning scheduling algorithms for data processing clusters.
+\newblock In \emph{Proceedings of the ACM Special Interest Group on Data
+  Communication}, pages 270--288.
+
 \bibitem[{{Mnih} et~al.(2015){Mnih}, {Kavukcuoglu}, {Silver}, {Rusu}, {Veness},
   {Bellemare}, {Graves}, {Riedmiller}, {Fidjeland}, {Ostrovski}, {Petersen},
   {Beattie}, {Sadik}, {Antonoglou}, {King}, {Kumaran}, {Wierstra}, {Legg}, and
@@ -51,6 +137,17 @@ Andrew~Y Ng, Stuart~J Russell, et~al. 2000.
 \newblock Algorithms for inverse reinforcement learning.
 \newblock In \emph{Icml}, volume~1, page~2.
 
+\bibitem[{Silver et~al.(2018)Silver, Hubert, Schrittwieser, Antonoglou, Lai,
+  Guez, Lanctot, Sifre, Kumaran, Graepel, Lillicrap, Simonyan, and
+  Hassabis}]{Silver1140}
+David Silver, Thomas Hubert, Julian Schrittwieser, Ioannis Antonoglou, Matthew
+  Lai, Arthur Guez, Marc Lanctot, Laurent Sifre, Dharshan Kumaran, Thore
+  Graepel, Timothy Lillicrap, Karen Simonyan, and Demis Hassabis. 2018.
+\newblock \href {https://doi.org/10.1126/science.aar6404} {A general
+  reinforcement learning algorithm that masters chess, shogi, and go through
+  self-play}.
+\newblock \emph{Science}, 362(6419):1140--1144.
+
 \bibitem[{Silver et~al.(2014)Silver, Lever, Heess, Degris, Wierstra, and
   Riedmiller}]{pmlr-v32-silver14}
 David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and
@@ -65,6 +162,31 @@ David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and
 Richard~S. Sutton and Andrew~G. Barto. 2018.
 \newblock \emph{Reinforcement Learning: An Introduction}.
 \newblock A Bradford Book, Cambridge, MA, USA.
+
+\bibitem[{Valadarsky et~al.(2017)Valadarsky, Schapira, Shahaf, and
+  Tamar}]{valadarsky2017learning}
+Asaf Valadarsky, Michael Schapira, Dafna Shahaf, and Aviv Tamar. 2017.
+\newblock Learning to route.
+\newblock In \emph{Proceedings of the 16th ACM workshop on hot topics in
+  networks}, pages 185--191.
+
+\bibitem[{Vinyals et~al.(2019)Vinyals, Babuschkin, Chung, Mathieu, Jaderberg,
+  Czarnecki, Dudzik, Huang, Georgiev, Powell, Ewalds, Horgan, Kroiss,
+  Danihelka, Agapiou, Oh, Dalibard, Choi, Sifre, Sulsky, Vezhnevets, Molloy,
+  Cai, Budden, Paine, Gulcehre, Wang, Pfaff, Pohlen, Yogatama, Cohen, McKinney,
+  Smith, Schaul, Lillicrap, Apps, Kavukcuoglu, Hassabis, and
+  Silver}]{alphastarblog}
+Oriol Vinyals, Igor Babuschkin, Junyoung Chung, Michael Mathieu, Max Jaderberg,
+  Wojtek Czarnecki, Andrew Dudzik, Aja Huang, Petko Georgiev, Richard Powell,
+  Timo Ewalds, Dan Horgan, Manuel Kroiss, Ivo Danihelka, John Agapiou, Junhyuk
+  Oh, Valentin Dalibard, David Choi, Laurent Sifre, Yury Sulsky, Sasha
+  Vezhnevets, James Molloy, Trevor Cai, David Budden, Tom Paine, Caglar
+  Gulcehre, Ziyu Wang, Tobias Pfaff, Toby Pohlen, Dani Yogatama, Julia Cohen,
+  Katrina McKinney, Oliver Smith, Tom Schaul, Timothy Lillicrap, Chris Apps,
+  Koray Kavukcuoglu, Demis Hassabis, and David Silver. 2019.
+\newblock {AlphaStar: Mastering the Real-Time Strategy Game StarCraft II}.
+\newblock
+  \url{https://deepmind.com/blog/alphastar-mastering-real-time-strategy-game-starcraft-ii/}.
 
 \bibitem[{Watkins(1989)}]{watkins}
 Christopher J. C.~H. Watkins. 1989.

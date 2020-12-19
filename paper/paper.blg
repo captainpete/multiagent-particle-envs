@@ -8,44 +8,46 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: paper.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 11 entries,
+Warning--missing publisher in mao2019learning
+You've used 25 entries,
             3571 wiz_defined-function locations,
-            768 strings with 7909 characters,
-and the built_in function-call counts, 9104 in all, are:
-= -- 701
-> -- 611
-< -- 8
-+ -- 197
-- -- 186
-* -- 671
-:= -- 1418
-add.period$ -- 42
-call.type$ -- 11
-change.case$ -- 120
-chr.to.int$ -- 11
-cite$ -- 11
-duplicate$ -- 580
-empty$ -- 575
-format.name$ -- 217
-if$ -- 1933
+            847 strings with 12492 characters,
+and the built_in function-call counts, 24159 in all, are:
+= -- 1768
+> -- 1926
+< -- 13
++ -- 629
+- -- 600
+* -- 1881
+:= -- 3720
+add.period$ -- 96
+call.type$ -- 25
+change.case$ -- 338
+chr.to.int$ -- 25
+cite$ -- 26
+duplicate$ -- 1511
+empty$ -- 1357
+format.name$ -- 673
+if$ -- 5040
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 128
-newline$ -- 56
-num.names$ -- 44
-pop$ -- 281
+missing$ -- 341
+newline$ -- 122
+num.names$ -- 100
+pop$ -- 757
 preamble$ -- 1
-purify$ -- 105
+purify$ -- 299
 quote$ -- 0
-skip$ -- 366
+skip$ -- 856
 stack$ -- 0
-substring$ -- 239
-swap$ -- 307
-text.length$ -- 5
+substring$ -- 587
+swap$ -- 821
+text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 96
-warning$ -- 0
-while$ -- 43
+type$ -- 222
+warning$ -- 1
+while$ -- 102
 width$ -- 0
-write$ -- 139
+write$ -- 310
+(There was 1 warning)

@@ -16,45 +16,70 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{Silver1140,badia2020agent57,alphastarblog,barth2018distributed}
+\citation{1606.01540,hoffman2020acme,stable-baselines}
+\citation{chen2018auto,mao2019learning,valadarsky2017learning}
+\citation{abbeel2006application}
+\citation{dulacarnold2019challenges}
+\citation{jakobi1995noise}
 \citation{lowe2020multiagent}
+\citation{SuttonBarto}
 \citation{watkins}
 \citation{2015Natur.518..529M}
 \citation{Williams92simplestatistical}
 \citation{SuttonBarto}
 \citation{bhatnagar2009natural}
+\newlabel{sec:background}{{2}{2}{Background}{section.2}{}}
 \citation{pmlr-v32-silver14}
 \citation{lillicrap2019continuous}
-\newlabel{sec:background}{{2}{2}{Background}{section.2}{}}
 \citation{lowe2020multiagent}
 \citation{ghavamzadeh2016bayesian}
 \citation{leike2017ai}
 \citation{ng2000algorithms}
-\citation{lowe2020multiagent}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{game-settings}{{1}{3}{Scenario settings. \relax }{table.caption.7}{}}
 \newlabel{sec:scenarios}{{3}{3}{Scenarios}{section.3}{}}
 \newlabel{sec:game}{{3.1}{3}{Zombie-Survival Game}{subsection.3.1}{}}
-\newlabel{sec:baseline}{{3.2}{3}{Scenario: Baseline}{subsection.3.2}{}}
-\newlabel{fig:baseline_reward}{{1}{4}{Reward (moving average over 100 episodes) for survivors (green) and zombies (red) for 10 training runs.\relax }{figure.caption.8}{}}
-\newlabel{fig:baseline_speed}{{2}{4}{Reward and speed (moving averages over 200 episodes) for a single training run in baseline scenario. Survivors in blue and orange.\relax }{figure.caption.10}{}}
-\newlabel{sec:anon}{{3.4}{4}{Scenario: Anonymity}{subsection.3.4}{}}
-\newlabel{fig:anon_base_compare}{{3}{5}{Speed and reward evolution for baseline and anonymous scenarios. Results taken as moving averages over 200 episodes prior to aggregation. \relax }{figure.caption.12}{}}
+\citation{lowe2020multiagent}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{game-settings}{{1}{4}{Scenario settings. \relax }{table.caption.6}{}}
+\newlabel{sec:baseline}{{3.2}{4}{Scenario: Baseline}{subsection.3.2}{}}
+\newlabel{fig:baseline_reward}{{1}{4}{Reward (moving average over 100 episodes) for survivors (green) and zombies (red) for 10 training runs. Agents experience policy shifts between episode 2000 to 6000. Policies stabilize after 7000 episodes. \relax }{figure.caption.7}{}}
+\newlabel{fig:baseline_speed}{{2}{4}{Reward and average speed (moving averages over 200 episodes) for all agents in a single training run of the \emph {baseline} scenario. Survivors (blue and orange) learn faster movement at different times. \relax }{figure.caption.9}{}}
+\newlabel{sec:anon}{{3.4}{5}{Scenario: Anonymity}{subsection.3.4}{}}
 \newlabel{sec:health}{{3.6}{5}{Scenario: Health}{subsection.3.6}{}}
-\newlabel{fig:anon_base_dist_bite}{{4}{5}{Distance and bite count comparison between baseline and anonymous scenarios. Plot colors indicate average distance and average bite count per episode average across the last 5000 episodes of a training run. Both axes are agent indexes, and color indicates relative value with white being the highest value. \relax }{figure.caption.13}{}}
-\bibdata{paper}
-\bibcite{bhatnagar2009natural}{{1}{2009}{{Bhatnagar et~al.}}{{Bhatnagar, Sutton, Ghavamzadeh, and Lee}}}
-\bibcite{ghavamzadeh2016bayesian}{{2}{2016}{{Ghavamzadeh et~al.}}{{Ghavamzadeh, Mannor, Pineau, and Tamar}}}
-\bibcite{leike2017ai}{{3}{2017}{{Leike et~al.}}{{Leike, Martic, Krakovna, Ortega, Everitt, Lefrancq, Orseau, and Legg}}}
-\bibcite{lillicrap2019continuous}{{4}{2019}{{Lillicrap et~al.}}{{Lillicrap, Hunt, Pritzel, Heess, Erez, Tassa, Silver, and Wierstra}}}
-\bibcite{lowe2020multiagent}{{5}{2020}{{Lowe et~al.}}{{Lowe, Wu, Tamar, Harb, Abbeel, and Mordatch}}}
-\bibcite{2015Natur.518..529M}{{6}{2015}{{{Mnih} et~al.}}{{{Mnih}, {Kavukcuoglu}, {Silver}, {Rusu}, {Veness}, {Bellemare}, {Graves}, {Riedmiller}, {Fidjeland}, {Ostrovski}, {Petersen}, {Beattie}, {Sadik}, {Antonoglou}, {King}, {Kumaran}, {Wierstra}, {Legg}, and {Hassabis}}}}
-\bibcite{ng2000algorithms}{{7}{2000}{{Ng et~al.}}{{Ng, Russell et~al.}}}
-\newlabel{fig:anon_health_compare}{{5}{6}{Comparison between anonymous and health scenario policy evolution. Results taken as moving averages over 200 episodes prior to aggregation. Plot 1: average speed of all agents. Plot 2: average reward of zombies. Plot 3: lowest health of all survivors at the conclusion of an episode. Plot 4: the difference between survivor health at the conclusion of an episode. \relax }{figure.caption.16}{}}
+\newlabel{fig:anon_base_compare}{{3}{5}{Speed and reward evolution for baseline and anonymous scenarios over 8 training runs. Results taken as moving averages over 200 episodes prior to aggregation. \relax }{figure.caption.11}{}}
+\newlabel{fig:anon_base_dist_bite}{{4}{5}{Distance and bite count comparison between \emph {baseline} and \emph {anonymous} scenarios. Plot colors indicate average distance and average bite count per episode, averaged across the last 5000 episodes of a single training run. Both axes are agent indexes, and shade of color indicates relative value with white being the highest value. \relax }{figure.caption.12}{}}
+\newlabel{fig:health_survivor_dist}{{5}{6}{Distance between survivors in the \emph {health} scenario. Survivors learn to keep their distance from one another more than in the \emph {anonymous} scenario. Results taken as moving averages over 200 episodes prior to aggregation. \relax }{figure.caption.16}{}}
 \newlabel{sec:arms}{{3.8}{6}{Scenario: Armed}{subsection.3.8}{}}
-\newlabel{sec:discussion}{{4}{6}{Discussion}{section.4}{}}
-\bibcite{pmlr-v32-silver14}{{8}{2014}{{Silver et~al.}}{{Silver, Lever, Heess, Degris, Wierstra, and Riedmiller}}}
-\bibcite{SuttonBarto}{{9}{2018}{{Sutton and Barto}}{{}}}
-\bibcite{watkins}{{10}{1989}{{Watkins}}{{}}}
-\bibcite{Williams92simplestatistical}{{11}{1992}{{Williams}}{{}}}
+\newlabel{fig:anon_health_compare}{{6}{7}{Comparison between \emph {anonymous} and \emph {health} scenario policy evolution. Results taken as moving averages over 200 episodes prior to aggregation. Plot 1: average speed of all agents. Plot 2: average reward of zombies. Plot 3: lowest health of all survivors at the conclusion of an episode. Plot 4: the difference between survivor health at the conclusion of an episode. \relax }{figure.caption.17}{}}
+\newlabel{fig:armed_health_compare}{{7}{7}{Comparison between \emph {armed} and \emph {health} scenario policy evolution over 3 training runs. Results taken as moving averages over 500 episodes prior to aggregation. Plot 1: average speed zombies and survivors per episode. Plot 2: survivor episode reward. Plot 3: episode-end health of zombies and survivors. Plot 4: total hits recieved by zombies and survivors. \relax }{figure.caption.18}{}}
+\newlabel{fig:survivor_skill}{{8}{8}{Comparison of hits from different survivors in the \emph {armed} scenario over 3 training runs. Results taken as moving averages over 1000 episodes prior to aggregation due to high variance. Plot 1: zombie hit counts for each survivor. Plot 2: survivor hit counts for each survivor. Plot 3: shots fired for each survivor. Plot 4: ratio of zombie and survivor hit counts to shots fired for each survivor. Plot 5: probability a survivor shot the other survivor, conditional on them having fired and hit something, normaled for team size. \relax }{figure.caption.19}{}}
+\citation{10.5555/3091125.3091194}
+\bibdata{paper}
+\bibcite{abbeel2006application}{{1}{2006}{{Abbeel et~al.}}{{Abbeel, Coates, Quigley, and Ng}}}
+\bibcite{badia2020agent57}{{2}{2020}{{Badia et~al.}}{{Badia, Piot, Kapturowski, Sprechmann, Vitvitskyi, Guo, and Blundell}}}
+\bibcite{barth2018distributed}{{3}{2018}{{Barth-Maron et~al.}}{{Barth-Maron, Hoffman, Budden, Dabney, Horgan, Tb, Muldal, Heess, and Lillicrap}}}
+\bibcite{bhatnagar2009natural}{{4}{2009}{{Bhatnagar et~al.}}{{Bhatnagar, Sutton, Ghavamzadeh, and Lee}}}
+\bibcite{1606.01540}{{5}{2016}{{Brockman et~al.}}{{Brockman, Cheung, Pettersson, Schneider, Schulman, Tang, and Zaremba}}}
+\bibcite{chen2018auto}{{6}{2018}{{Chen et~al.}}{{Chen, Lingys, Chen, and Liu}}}
+\bibcite{dulacarnold2019challenges}{{7}{2019}{{Dulac-Arnold et~al.}}{{Dulac-Arnold, Mankowitz, and Hester}}}
+\newlabel{sec:discussion}{{4}{9}{Discussion}{section.4}{}}
+\newlabel{fig:baseline_reward}{{9}{9}{The \emph {armed} environment. Survivors in green, zombies in red. Both survivors are firing weapons. \relax }{figure.caption.23}{}}
+\bibcite{ghavamzadeh2016bayesian}{{8}{2016}{{Ghavamzadeh et~al.}}{{Ghavamzadeh, Mannor, Pineau, and Tamar}}}
+\bibcite{stable-baselines}{{9}{2018}{{Hill et~al.}}{{Hill, Raffin, Ernestus, Gleave, Kanervisto, Traore, Dhariwal, Hesse, Klimov, Nichol, Plappert, Radford, Schulman, Sidor, and Wu}}}
+\bibcite{hoffman2020acme}{{10}{2020}{{Hoffman et~al.}}{{Hoffman, Shahriari, Aslanides, Barth-Maron, Behbahani, Norman, Abdolmaleki, Cassirer, Yang, Baumli, Henderson, Novikov, Colmenarejo, Cabi, Gulcehre, Paine, Cowie, Wang, Piot, and de~Freitas}}}
+\bibcite{jakobi1995noise}{{11}{1995}{{Jakobi et~al.}}{{Jakobi, Husbands, and Harvey}}}
+\bibcite{10.5555/3091125.3091194}{{12}{2017}{{Leibo et~al.}}{{Leibo, Zambaldi, Lanctot, Marecki, and Graepel}}}
+\bibcite{leike2017ai}{{13}{2017}{{Leike et~al.}}{{Leike, Martic, Krakovna, Ortega, Everitt, Lefrancq, Orseau, and Legg}}}
+\bibcite{lillicrap2019continuous}{{14}{2019}{{Lillicrap et~al.}}{{Lillicrap, Hunt, Pritzel, Heess, Erez, Tassa, Silver, and Wierstra}}}
+\bibcite{lowe2020multiagent}{{15}{2020}{{Lowe et~al.}}{{Lowe, Wu, Tamar, Harb, Abbeel, and Mordatch}}}
+\bibcite{mao2019learning}{{16}{2019}{{Mao et~al.}}{{Mao, Schwarzkopf, Venkatakrishnan, Meng, and Alizadeh}}}
+\bibcite{2015Natur.518..529M}{{17}{2015}{{{Mnih} et~al.}}{{{Mnih}, {Kavukcuoglu}, {Silver}, {Rusu}, {Veness}, {Bellemare}, {Graves}, {Riedmiller}, {Fidjeland}, {Ostrovski}, {Petersen}, {Beattie}, {Sadik}, {Antonoglou}, {King}, {Kumaran}, {Wierstra}, {Legg}, and {Hassabis}}}}
+\bibcite{ng2000algorithms}{{18}{2000}{{Ng et~al.}}{{Ng, Russell et~al.}}}
+\bibcite{Silver1140}{{19}{2018}{{Silver et~al.}}{{Silver, Hubert, Schrittwieser, Antonoglou, Lai, Guez, Lanctot, Sifre, Kumaran, Graepel, Lillicrap, Simonyan, and Hassabis}}}
+\bibcite{pmlr-v32-silver14}{{20}{2014}{{Silver et~al.}}{{Silver, Lever, Heess, Degris, Wierstra, and Riedmiller}}}
+\bibcite{SuttonBarto}{{21}{2018}{{Sutton and Barto}}{{}}}
+\bibcite{valadarsky2017learning}{{22}{2017}{{Valadarsky et~al.}}{{Valadarsky, Schapira, Shahaf, and Tamar}}}
+\bibcite{alphastarblog}{{23}{2019}{{Vinyals et~al.}}{{Vinyals, Babuschkin, Chung, Mathieu, Jaderberg, Czarnecki, Dudzik, Huang, Georgiev, Powell, Ewalds, Horgan, Kroiss, Danihelka, Agapiou, Oh, Dalibard, Choi, Sifre, Sulsky, Vezhnevets, Molloy, Cai, Budden, Paine, Gulcehre, Wang, Pfaff, Pohlen, Yogatama, Cohen, McKinney, Smith, Schaul, Lillicrap, Apps, Kavukcuoglu, Hassabis, and Silver}}}
+\bibcite{watkins}{{24}{1989}{{Watkins}}{{}}}
+\bibcite{Williams92simplestatistical}{{25}{1992}{{Williams}}{{}}}
 \bibstyle{acl_natbib}
-\newlabel{sec:appendix}{{A}{7}{Appendix}{appendix.A}{}}
