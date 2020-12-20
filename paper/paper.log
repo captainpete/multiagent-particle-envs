@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  20 DEC 2020 02:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.10.20)  20 DEC 2020 11:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -488,16 +488,12 @@ Underfull \hbox (badness 1102) in paragraph at lines 167--170
 tend policy-
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
-03.
-(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [3]
+
 Underfull \hbox (badness 3471) in paragraph at lines 224--225
 []\OT1/ptm/m/n/10.95 (+20) Zombies have the ad-van-tage of num-bers,
  []
 
-<figures/baseline_reward.png, id=150, 289.26068pt x 428.92245pt>
+<figures/baseline_reward.png, id=127, 289.26068pt x 428.92245pt>
 File: figures/baseline_reward.png Graphic file (type png)
 <use figures/baseline_reward.png>
 Package pdftex.def Info: figures/baseline_reward.png  used on input line 257.
@@ -507,7 +503,8 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 257--262
  [][] 
  []
 
-<figures/baseline_speed.png, id=153, 289.26068pt x 263.24347pt>
+[3]
+<figures/baseline_speed.png, id=147, 289.26068pt x 263.24347pt>
 File: figures/baseline_speed.png Graphic file (type png)
 <use figures/baseline_speed.png>
 Package pdftex.def Info: figures/baseline_speed.png  used on input line 274.
@@ -518,7 +515,7 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 274--279
  []
 
 [4 <./figures/baseline_reward.png> <./figures/baseline_speed.png>]
-<figures/anon_base_compare.png, id=171, 284.20178pt x 208.67963pt>
+<figures/anon_base_compare.png, id=161, 284.20178pt x 208.67963pt>
 File: figures/anon_base_compare.png Graphic file (type png)
 <use figures/anon_base_compare.png>
 Package pdftex.def Info: figures/anon_base_compare.png  used on input line 311.
@@ -529,7 +526,7 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 311--315
  [][] 
  []
 
-<figures/anon_base_dist_bite.png, id=172, 248.42813pt x 246.80205pt>
+<figures/anon_base_dist_bite.png, id=162, 248.42813pt x 246.80205pt>
 File: figures/anon_base_dist_bite.png Graphic file (type png)
 <use figures/anon_base_dist_bite.png>
 Package pdftex.def Info: figures/anon_base_dist_bite.png  used on input line 32
@@ -540,8 +537,11 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 321--326
  [][] 
  []
 
-[5 <./figures/anon_base_compare.png> <./figures/anon_base_dist_bite.png>]
-<figures/health_survivor_dist.png, id=186, 282.21436pt x 154.6578pt>
+
+Underfull \vbox (badness 4266) has occurred while \output is active []
+
+ [5 <./figures/anon_base_compare.png> <./figures/anon_base_dist_bite.png>]
+<figures/health_survivor_dist.png, id=179, 282.21436pt x 154.6578pt>
 File: figures/health_survivor_dist.png Graphic file (type png)
 <use figures/health_survivor_dist.png>
 Package pdftex.def Info: figures/health_survivor_dist.png  used on input line 3
@@ -552,7 +552,7 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 366--371
  [][] 
  []
 
-<figures/anon_health_compare.png, id=187, 285.10515pt x 317.80733pt>
+<figures/anon_health_compare.png, id=180, 285.10515pt x 317.80733pt>
 File: figures/anon_health_compare.png Graphic file (type png)
 <use figures/anon_health_compare.png>
 Package pdftex.def Info: figures/anon_health_compare.png  used on input line 38
@@ -563,8 +563,8 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 380--388
  [][] 
  []
 
-[6 <./figures/health_survivor_dist.png>]
-<figures/armed_health_compare.png, id=200, 286.73123pt x 536.06273pt>
+[6 <./figures/health_survivor_dist.png> <./figures/anon_health_compare.png>]
+<figures/armed_health_compare.png, id=191, 286.73123pt x 536.06273pt>
 File: figures/armed_health_compare.png Graphic file (type png)
 <use figures/armed_health_compare.png>
 Package pdftex.def Info: figures/armed_health_compare.png  used on input line 4
@@ -575,7 +575,7 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 419--427
  [][] 
  []
 
-<figures/survivor_skill.png, id=201, 282.39502pt x 699.75427pt>
+<figures/survivor_skill.png, id=192, 282.39502pt x 699.75427pt>
 File: figures/survivor_skill.png Graphic file (type png)
 <use figures/survivor_skill.png>
 Package pdftex.def Info: figures/survivor_skill.png  used on input line 433.
@@ -585,19 +585,18 @@ Overfull \hbox (8.53592pt too wide) in paragraph at lines 433--442
  [][] 
  []
 
-[7 <./figures/anon_health_compare.png> <./figures/armed_health_compare.png>]
-[8 <./figures/survivor_skill.png>]
-<figures/screencapture.png, id=229, 402.50375pt x 433.62pt>
+[7 <./figures/armed_health_compare.png>] [8 <./figures/survivor_skill.png>]
+<figures/screencapture.png, id=219, 402.50375pt x 433.62pt>
 File: figures/screencapture.png Graphic file (type png)
 <use figures/screencapture.png>
-Package pdftex.def Info: figures/screencapture.png  used on input line 519.
+Package pdftex.def Info: figures/screencapture.png  used on input line 516.
 (pdftex.def)             Requested size: 227.62204pt x 245.2141pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 519--524
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 516--521
  [][] 
  []
 
-(./paper.bbl [9 <./figures/screencapture.png>]
+(./paper.bbl
 Underfull \hbox (badness 6141) in paragraph at lines 52--55
 []\OT1/ptm/m/n/10 Mohammad Ghavamzadeh, Shie Man-nor, Joelle
  []
@@ -633,7 +632,7 @@ Underfull \hbox (badness 2005) in paragraph at lines 87--93
 []\OT1/ptm/m/n/10 Joel Z. Leibo, Vini-cius Zam-baldi, Marc Lanc-tot,
  []
 
-
+[9 <./figures/screencapture.png>]
 Underfull \hbox (badness 1077) in paragraph at lines 102--106
 \OT1/ptm/m/n/10 Pritzel, Nico-las Heess, Tom Erez, Yu-val Tassa,
  []
@@ -706,29 +705,29 @@ Underfull \hbox (badness 1259) in paragraph at lines 198--202
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 531.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 528.
  [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 531.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 528.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 531.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 531.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 528.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 528.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 531.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 528.
  )
 (\end occurred when \iffalse on line 352 was incomplete) 
 Here is how much of TeX's memory you used:
- 10318 strings out of 480608
- 160744 string characters out of 5903629
- 467849 words of memory out of 5000000
- 25749 multiletter control sequences out of 15000+600000
- 564826 words of font info for 197 fonts, out of 8000000 for 9000
+ 10288 strings out of 480608
+ 160292 string characters out of 5903629
+ 466861 words of memory out of 5000000
+ 25727 multiletter control sequences out of 15000+600000
+ 564311 words of font info for 194 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 49i,13n,46p,905b,463s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 49i,13n,46p,905b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): 
 name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed o
 ne
@@ -750,10 +749,10 @@ exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2020/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on paper.pdf (10 pages, 2155330 bytes).
+Output written on paper.pdf (10 pages, 2153272 bytes).
 PDF statistics:
- 341 PDF objects out of 1000 (max. 8388607)
- 292 compressed objects within 3 object streams
- 88 named destinations out of 1000 (max. 500000)
- 22574 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 333 PDF objects out of 1000 (max. 8388607)
+ 284 compressed objects within 3 object streams
+ 87 named destinations out of 1000 (max. 500000)
+ 22062 words of extra memory for PDF output out of 24883 (max. 10000000)
 

@@ -195,19 +195,19 @@ In MADDPG, the critic $Q^\pi_i(x, a_1, a_2, ..., a_N)$ for agent $i$ has access 
 Under MADDPG, agents agents are permitted to have different state and action spaces, and to be goverened by different reward functions.
 We use the MADDPG algorithm for all agents within our scenarios.
 
-\subsection{Agent Design}
-
-When implementing an RL system there are many important design decisions, some key considerations are:
-
-\begin{itemize}
-  \item \emph{Algorithm}: Different algorithms are suited to different tasks. A selected algorithm will need to perform well with the selected action-space, state-space, reward function and environmental dynamics.
-  \item \emph{State-space}: The state-space describes how environmental observations are presented to the algorithm. Constructing the correct, relevant abstractions allow an agent to better learn the environment.
-  \item \emph{Action-space}: The action-space describes actions available to the agent. The level of abstraction here should be fine enough for precise control, but general enough for a policy to be easily learnable.
-  \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Some algorithms can model uncertainty in the reward function \citep{ghavamzadeh2016bayesian}, but most expect a point-estimate rather than a distribution. Crafting a consistent reward function that reflects the exact desires of the designer can be challenging \citep{leike2017ai}. Some algorithms can infer the a reward function from feedback \citep{ng2000algorithms}, but most simply try to maximize the explicit reward given by the function.
-\end{itemize}
-
-In our scenarios we implement a simple reward function that creates a zero-sum game, where one agent's loss is another's gain.
-Our investigation examines the effect of design choices relating to the state-space and action-space, and how those impact the emergence of policies.
+% \subsection{Agent Design}
+% 
+% When implementing an RL system there are many important design decisions, some key considerations are:
+% 
+% \begin{itemize}
+%   \item \emph{Algorithm}: Different algorithms are suited to different tasks. A selected algorithm will need to perform well with the selected action-space, state-space, reward function and environmental dynamics.
+%   \item \emph{State-space}: The state-space describes how environmental observations are presented to the algorithm. Constructing the correct, relevant abstractions allow an agent to better learn the environment.
+%   \item \emph{Action-space}: The action-space describes actions available to the agent. The level of abstraction here should be fine enough for precise control, but general enough for a policy to be easily learnable.
+%   \item \emph{Reward function}: The reward function provides a scalar feedback value (positive or negative) to the agent. Some algorithms can model uncertainty in the reward function \citep{ghavamzadeh2016bayesian}, but most expect a point-estimate rather than a distribution. Crafting a consistent reward function that reflects the exact desires of the designer can be challenging \citep{leike2017ai}. Some algorithms can infer the a reward function from feedback \citep{ng2000algorithms}, but most simply try to maximize the explicit reward given by the function.
+% \end{itemize}
+% 
+% In our scenarios we implement a simple reward function that creates a zero-sum game, where one agent's loss is another's gain.
+% Our investigation examines the effect of design choices relating to the state-space and action-space, and how those impact the emergence of policies.
 
 \section{Scenarios}
 \label{sec:scenarios}
@@ -505,10 +505,8 @@ Once we corrected this in the \emph{health} scenario the strategy became less co
 
 In the \emph{armed} scenario we weren't certain how agents would respond.
 Survivors were less effective than expected within the training time at using weapons, likely because we underestimated the complexities of a task achievable by humans (in popular depictions of zombie-survivor scenarios, survivors are adept at shooting).
-
-The competitive behavior we saw between survivors was also a surprise, as we expected the survivors to learn the advantage of cooperation.
-On reflection, that expectation was a result of our personal ethical conditioning and our anthropomorphizing the survivors.
-A more thorough empirical game theoretic analysis such as performed in \citealp{10.5555/3091125.3091194} would likely help us understand the agent incentives.
+The social dilemma presented warrants further study;
+a more thorough empirical game theoretic analysis such as performed in \citealp{10.5555/3091125.3091194} would be an interesting exercise.
 
 We found it an interesting challenge to attempt to produce desired behavior in a multi-agent setting.
 Above all, we learned that agents will seek to maximize their reward functions, rather than do what you expect them to do.
