@@ -8,10 +8,10 @@ from multiagent.scenario import BaseScenario
 #   2D continuous action space (up/down, left/right)
 
 # observation space:
-#   Complete information on 2D positions of all agents (continuous 4D *
+#   Partial information on 2D positions of all agents (continuous 4D *
 #   agents). This includes absolute position and velocity for the agent itself,
 #   and relative position and velociry for other humans, and other zombies
-#   (agents have identity by index position).
+#   (agents' positions are sorted by team then by distance to the observer).
 
 # reward function:
 #   When a zombie and human come into contact then 10 reward is deducted from

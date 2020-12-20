@@ -487,29 +487,33 @@ in which the survivor, having fired and hit something, has either hit the other 
 
 where $h_{i,j}$ is the number of times agent $i$ shot agent $j$ in an episode, $S$ is the set of survivors and $Z$ the set of zombies.
 
-We found that if we accept the model then survivors are learning that if they can hit an agent, a survivor is higher value target than a zombie (Figure \ref{fig:survivor_skill}, plot 5).
+We found that if we accept the model then survivors are learning that if they can hit an agent, it is more valuable to hit a survivor (Figure \ref{fig:survivor_skill}, plot 5).
 We were unable to train the model for more than 20,000 episodes (due to time constraints) to determine if defection emerges as a dominant strategy over time.
 
 \section{Discussion}
 \label{sec:discussion}
 
-In attempting to design scenarios to model a `real-life' zombie-survival situation we witnessed the emergence of surprising behaviors.
-In each case, our surprise was a result of the environment's dynamics (as implemented) not matching our expectations.
+In attempting to design scenarios to model a `real-life' zombie-survival situation we encountered unexpected agent policies.
+We did not expect target-fixation, wall-bouncing or survivors having trouble using weapons.
 
-In the \emph{baseline} scenario, we didn't expect target-fixation because our personal state-space representation was already abstracting the agents into two teams.
-When we aligned the state-space using our personal abstractions in the \emph{anonymous} scenario the behavior was corrected, but we encountered further surprises.
-We did not expect the wall-bouncing strategy because our personal expectation was that running into a wall when chased by zombies is counterproductive.
+When we encoded additional dynamics into the environment to make our expectations explicit we caused changes in agent policy; only some of these changes were successful.
+Altering an environment and modifying the state-space as we have done is one way to elicit desired policies,
+another approach is modifying the reward function to add detail and caveats to the agent's high-level goal.
+Both methods look to be blunt instruments for a real-world setting.
 
-Our explanation for this assumption was to do with health, which we weren't modelling.
-Once we corrected this in the \emph{health} scenario the strategy became less common and we observed the behavior we expected.
+An implication of the challenges we saw is that if an RL agent were to be deployed in a real-world environment,
+the agent's behavior may only be consistent with expectations to the extent that the environment dynamics remain stationary.
+Beyond the known environmental dynamics, it is hard to know ahead of time (without modelling and simulation) what agent behavior would result.
+Additionally, policies learned are not Bayes-optimal, so an agent may not always learn a desired policy even in the presence of a well expressed reward function and a perfectly representative simulation environment.
 
-In the \emph{armed} scenario we weren't certain how agents would respond.
-Survivors were less effective than expected within the training time at using weapons, likely because we underestimated the complexities of a task achievable by humans (in popular depictions of zombie-survivor scenarios, survivors are adept at shooting).
-The social dilemma presented warrants further study;
-a more thorough empirical game theoretic analysis such as performed in \citealp{10.5555/3091125.3091194} would be an interesting exercise.
+One can make the argument that all real-world environments are multi-agent settings,
+so the study of multi-agent learning dynamics is especially interesting for real-world applications.
+
+A potential avenue for further exploration of the Zombie-Survival game
+would be a more thorough, empirical game-theoretic analysis, such as undertaken in \citealp{10.5555/3091125.3091194}.
 
 We found it an interesting challenge to attempt to produce desired behavior in a multi-agent setting.
-Above all, we learned that agents will seek to maximize their reward functions, rather than do what you expect them to do.
+While we had some success, we would hesitate before deploying our agents into the real world.
 
 \begin{figure}
   \centering
